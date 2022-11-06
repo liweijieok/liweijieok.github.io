@@ -140,6 +140,164 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-eventbus2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/05/eventbus2/">EventBus3.x源码解析-register流程分析(反射方式)</a>
+    </h1>
+  
+
+        
+        <a href="/2022/05/05/eventbus2/" class="archive-article-date">
+  	<time datetime="2022-05-05T12:59:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/05/eventbus2/">register流程分析(反射方式)</a>【本文】</li>
+<li>register流程分析(注解方式)</li>
+<li>stickey消息实现和处理</li>
+<li>最佳实践</li>
+</ol>
+        
+          <a class="article-more-a" href="/2022/05/05/eventbus2/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-eventbus1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/04/eventbus1/">EventBus3.x源码解析-post流程</a>
+    </h1>
+  
+
+        
+        <a href="/2022/05/04/eventbus1/" class="archive-article-date">
+  	<time datetime="2022-05-04T03:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a>【本文】</li>
+<li>register流程分析(反射方式)</li>
+<li>register流程分析(注解方式)</li>
+<li>stickey消息实现和处理</li>
+<li>最佳实践</li>
+</ol>
+        
+          <a class="article-more-a" href="/2022/05/04/eventbus1/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-adb_cmd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -721,154 +879,6 @@
 
 
   
-    <article id="post-databinding" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/25/databinding/">Jetpack之DataBinding</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/25/databinding/" class="archive-article-date">
-  	<time datetime="2021-04-25T08:26:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>DataBinding是可以用来实现MVVM的一种很合适的方案，可以极大的精简Activity的逻辑代码。他能够在xml中引入简单的逻辑代码，也能够非常灵活的利用View自带的属性进行设置，同时也支持数据的双向绑定或者是单纯的View绑定。</p>
-        
-          <a class="article-more-a" href="/2021/04/25/databinding/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jetpack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/16/jetpack/">Jetpack的组成</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/16/jetpack/" class="archive-article-date">
-  	<time datetime="2021-04-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Jetpack介绍"><a href="#Jetpack介绍" class="headerlink" title="Jetpack介绍"></a>Jetpack介绍</h1><p>最近打算写一个系列分析Jatpack的源码，所以先看一下有那些。Jetpack是由多个库组成的套件，用于减少模板代码并编写在各种Android版本和设备中一致允运行的代码。</p>
-<p>他包含以下常用套件</p>
-<ol>
-<li>Lifecycle，生命周期感知组件</li>
-<li>LiveData，基于生命周期的组件
-        
-          <a class="article-more-a" href="/2021/04/16/jetpack/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">«上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页»</a>
@@ -1010,10 +1020,6 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">java</a>
               </li>
              
               <li class="article-tag-list-item">
