@@ -140,6 +140,164 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-eventbus4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/17/eventbus4/">EventBus3.0源码解析-Sticky事件实现</a>
+    </h1>
+  
+
+        
+        <a href="/2022/05/17/eventbus4/" class="archive-article-date">
+  	<time datetime="2022-05-17T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-17</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/05/eventbus2/">register流程分析(反射方式)</a></li>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/16/eventbus3/">register流程分析(注解方式)</a></li>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/17/eventbus4/">stickey消息实现和处理【本文】</a></li>
+<li>最佳实践</li>
+</ol>
+        
+          <a class="article-more-a" href="/2022/05/17/eventbus4/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-eventbus3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/05/16/eventbus3/">EventBus3.x源码解析-register流程分析(注解方式)</a>
+    </h1>
+  
+
+        
+        <a href="/2022/05/16/eventbus3/" class="archive-article-date">
+  	<time datetime="2022-05-16T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a></li>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/05/eventbus2/">register流程分析(反射方式)</a></li>
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/16/eventbus3/">register流程分析(注解方式)【本文】</a></li>
+<li>stickey消息实现和处理</li>
+<li>最佳实践</li>
+</ol>
+        
+          <a class="article-more-a" href="/2022/05/16/eventbus3/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-eventbus2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -734,151 +892,6 @@
 
 
   
-    <article id="post-lifecycle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/27/lifecycle/">Jetpack之Lifecycle源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/27/lifecycle/" class="archive-article-date">
-  	<time datetime="2021-04-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Lifecycle是Jetpack的核心组件，他可以无侵入的观测到Activity&#x2F;Fragment的生命周期变化，解耦代码。对于ViewModel，LifeData，以及一些需要感知生命周期的方法或组件可以提供帮助。官网使用介绍地址是<a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/androidx/releases/lifecycle?hl=zh-cn#kotlin">lifecycle</a>。</p>
-        
-          <a class="article-more-a" href="/2021/04/27/lifecycle/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-FastSafeIterableMap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/26/FastSafeIterableMap/">Jetpack之FastSafeIterableMap源码</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/26/FastSafeIterableMap/" class="archive-article-date">
-  	<time datetime="2021-04-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们在分析Lifecycle源码之前先看下FastSafeIterableMap的源码，因为Lifecycle组件的关键类LifecycleRegistry使用到，而且是关键的属性。</p>
-<p>首先，他继承自<code>SafeIterableMap</code>，而<code>SafeIterableMap</code>继承自<code>Iterable&lt;Map.Entry&lt;K, V&gt;&gt;</code>。我们就先分析<code>SafeIterableMap</code>的源码</p>
-        
-          <a class="article-more-a" href="/2021/04/26/FastSafeIterableMap/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">«上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页»</a>
@@ -1036,6 +1049,10 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">开发总结</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Kotlin</a>
               </li>
             
             <div class="clearfix"></div>

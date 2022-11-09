@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives: 2020/10 | liweijie</title>
+  <title>Java反射方法备忘录【置顶】 | liweijie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="liweijie">
-<meta property="og:url" content="http://example.com/archives/2020/10/index.html">
+  <meta name="description" content="本文记录是Java反射的基础知识和相关的API。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java反射方法备忘录【置顶】">
+<meta property="og:url" content="http://example.com/2022/11/09/java_reflect/index.html">
 <meta property="og:site_name" content="liweijie">
+<meta property="og:description" content="本文记录是Java反射的基础知识和相关的API。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.picgo.net/2022/11/07/9969866b6b68ba0416057b4ffece5c00.jpg">
+<meta property="article:published_time" content="2022-11-08T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-09T13:05:51.211Z">
 <meta property="article:author" content="liweijie">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.picgo.net/2022/11/07/9969866b6b68ba0416057b4ffece5c00.jpg">
   
     <link rel="alternative" href="/atom.xml" title="liweijie" type="application/atom+xml">
   
@@ -138,99 +145,301 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-java_reflect" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/12/open-source-collection/" class="archive-article-date">
-  	<time datetime="2020-10-12T08:27:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/12/open-source-collection/">open_source_collection</a>
+    <h1 class="article-title" itemprop="name">
+      Java反射方法备忘录【置顶】
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2022/11/09/java_reflect/" class="archive-article-date">
+  	<time datetime="2022-11-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-09</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文记录是Java反射的基础知识和相关的API。</p>
+<span id="more"></span>
+
+<p>其中，大概的相关类的继承关系如下：</p>
+<p><a target="_blank" rel="noopener" href="https://www.picgo.net/image/%E6%B5%81%E7%A8%8B%E5%9B%BE.0Triw"><img src="https://img.picgo.net/2022/11/07/9969866b6b68ba0416057b4ffece5c00.jpg" alt="Class相关类的继承图"></a></p>
+<h2 id="AnnotatedElement类"><a href="#AnnotatedElement类" class="headerlink" title="AnnotatedElement类"></a>AnnotatedElement类</h2><p>先说下<code>AnnotatedElement</code>这个接口，因为他是处于整个类关系的顶层，是一个通用接口，提供关于获取<code>Annotation</code>的相关方法，我们在后续的<code>Class</code>，<code>Method</code>和<code>Field</code>等的类也会有它的相关方法，都是继承自<code>AnnotatedElement</code>，具体可以看上面的图。</p>
+<ol>
+<li><code>boolean isAnnotationPresent(@RecentlyNonNull Class&lt;? extends Annotation&gt; annotationClass)</code> 当前的对象是否被<code>annotationClass</code>注解注解了</li>
+<li><code>Annotation[] getAnnotations()</code>，获取所有的注解该类的注解Class，包括继承而来的注解(使用了<code>@Inherited</code>注解的注解会被继承)</li>
+<li><code>&lt;T extends Annotation&gt; T getAnnotation(@RecentlyNonNull Class&lt;T&gt; var1)</code> ，获取对象上的指定注解(包括继承)</li>
+<li><code>&lt;T extends Annotation&gt; T[] getAnnotationsByType(@RecentlyNonNull Class&lt;T&gt; annotationClass)</code>，获取指定类型的注解在该类上Annotation数组，包括继承的</li>
+<li><code>&lt;T extends Annotation&gt; T getDeclaredAnnotation(@RecentlyNonNull Class&lt;T&gt; annotationClass)</code>， 用于获取对象上的指定注解，不包括继承</li>
+<li><code>&lt;T extends Annotation&gt; T[] getDeclaredAnnotationsByType(@RecentlyNonNull Class&lt;T&gt; annotationClass)</code>，获取指定类型的注解在该类上Annotation数组，不包括继承的</li>
+<li><code>Annotation[] getDeclaredAnnotations()</code>，获取自己声明的所有注解，不包括继承</li>
+</ol>
+<h2 id="AccessibleObject"><a href="#AccessibleObject" class="headerlink" title="AccessibleObject"></a>AccessibleObject</h2><p>其中，我们的<code>Field</code>，<code>Method</code>，<code>Constructor</code>都是继承了该类的，这个类我们主要用到的就是一个方法<code>setAccessible(boolean flag)</code>,在需要反射时调用并传入<code>true</code>，就可以提高反射速度，即使<code>private</code>修饰的也可以访问，原因则是<code>true</code>跳过了访问检查。</p>
+<h2 id="Member"><a href="#Member" class="headerlink" title="Member"></a>Member</h2><p>其中，我们的<code>Field</code>，<code>Method</code>，<code>Constructor</code>都是实现了该接口，他的主要作用是抽象了几个实现类的通用点，具体的方法如下：</p>
+<ol>
+<li><code>Class&lt;?&gt; getDeclaringClass()</code> 获取定义的所在类，如果自身与父类都存在对应的方法&#x2F;属性&#x2F;构造函数，则返回自身的</li>
+<li><code>String getName()</code> 获取名称</li>
+<li><code>int getModifiers()</code>获取总体的修饰符的<code>|</code>值</li>
+</ol>
+<h2 id="GenericDeclaration"><a href="#GenericDeclaration" class="headerlink" title="GenericDeclaration"></a>GenericDeclaration</h2><p>其中，我们的<code>Class</code>，<code>Method</code>，<code>Constructor</code>，他只有一个方法<br><code>TypeVariable&lt;?&gt;[] getTypeParameters()</code>，获取修饰的泛型数组，返回的<code>TypeVariable</code>可以获取泛型的相关信息，假如该类的泛型是非具体的则返回非具体的泛型名称，具体的则是返回具体的泛型类型。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list &#x3D; new ArrayList&lt;&gt;();</span><br><span class="line">Map&lt;String,String&gt; map &#x3D; new HashMap&lt;&gt;();</span><br><span class="line">&#x2F;&#x2F; 打印E</span><br><span class="line">System.out.println(list.getClass().getTypeParameters()[0].getName());</span><br><span class="line">&#x2F;&#x2F;打印k</span><br><span class="line">System.out.println(map.getClass().getTypeParameters()[0].getName());</span><br><span class="line">&#x2F;&#x2F;打印V</span><br><span class="line">System.out.println(map.getClass().getTypeParameters()[1].getName());</span><br></pre></td></tr></table></figure>
+
+<h2 id="Executable"><a href="#Executable" class="headerlink" title="Executable"></a>Executable</h2><p>我们的<code>Method</code>，<code>Constructor</code>都是继承了这个抽象类，他主要是定义了对于方法的一些抽象处理，因为对于<code>Method</code>，<code>Constructor</code>都是属于方法，有着较多的共性。在该类定义的方法，然后在<code>Method</code>，<code>Constructor</code>实现，他们的意思都是差不多的。</p>
+<ol>
+<li><code>Class&lt;?&gt;[] getParameterTypes()</code> 获取参数列表的<code>Class</code>对象</li>
+<li><code>int getParameterCount()</code> 获取参数个数</li>
+<li><code>Type[] getGenericParameterTypes()</code> 假如参数中有泛型则返回泛型类型的数组，否则返回<code>getParameterTypes()</code></li>
+<li><code>Parameter[] getParameters()</code>，返回类型为<code>Parameter</code>的参数列表数组，关于<code>Parameter</code>后续会说</li>
+<li><code>Class&lt;?&gt;[] getExceptionTypes()</code> 获取通过<code>throw</code>抛出的异常的class列表</li>
+<li><code>Type[] getGenericExceptionTypes()</code>，假如<code>throw</code>抛出的异常有泛型，则返回一个带有泛型的数组，否则就是返回<code>getExceptionTypes()</code></li>
+<li><code>boolean isVarArgs()</code> 参数是否是可变参数</li>
+<li><code>Annotation[][] getParameterAnnotations()</code>，获取参数的注解数组，因为每个参数都可以被多个注解注解，所以是二位数组</li>
+<li><code>AnnotatedType getAnnotatedReturnType()</code> 获取返回值中包含了注解信息AnnotatedType类型的对象，通过该对象可以得到</li>
+<li><code>AnnotatedType getAnnotatedReceiverType()</code> 返回一个<code>AnnotatedType</code>对象</li>
+<li><code>AnnotatedType[] getAnnotatedParameterTypes()</code> 表示该方法&#x2F;构造函数的接收者类型（自己也搞不太明白这个方法） 获取参数的注解的AnnotatedType对象数组，多个参数所以是一个数组</li>
+<li><code>AnnotatedType[] getAnnotatedExceptionTypes()</code>，获取<code>throws</code>抛出的异常的<code>AnnotatedType</code>数组</li>
+</ol>
+<p>下面是一些例子，简单是就不用例子了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">public class Test &#123;</span><br><span class="line">    public static void main(String[] args) throws NoSuchMethodException, NoSuchFieldException &#123;</span><br><span class="line">        Class&lt;Test&gt; c &#x3D; Test.class;</span><br><span class="line">        Method test &#x3D; c.getMethod(&quot;test&quot;, String.class, Object.class);</span><br><span class="line">        Class&lt;?&gt;[] parameterTypes &#x3D; test.getParameterTypes();</span><br><span class="line">        Type[] genericParameterTypes &#x3D; test.getGenericParameterTypes();</span><br><span class="line">        &#x2F;&#x2F;java.lang.String,java.lang.String</span><br><span class="line">        &#x2F;&#x2F;java.lang.Object,java.lang.Object</span><br><span class="line">        for (Class item : parameterTypes) &#123;</span><br><span class="line">            System.out.println(item.getName() + &quot;,&quot; + item.getTypeName());</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;java.lang.String</span><br><span class="line">        &#x2F;&#x2F;T</span><br><span class="line">        for (Type item : genericParameterTypes) &#123;</span><br><span class="line">            System.out.println(item.getTypeName());</span><br><span class="line">        &#125;</span><br><span class="line">        Class&lt;?&gt;[] exceptionTypes &#x3D; test.getExceptionTypes();</span><br><span class="line">        Type[] genericExceptionTypes &#x3D; test.getGenericExceptionTypes();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;java.lang.IllegalStateException</span><br><span class="line">        &#x2F;&#x2F;java.lang.IllegalArgumentException</span><br><span class="line">        for (Class item : exceptionTypes) &#123;</span><br><span class="line">            System.out.println(item.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;E</span><br><span class="line">        &#x2F;&#x2F;java.lang.IllegalArgumentException</span><br><span class="line">        for (Type item : genericExceptionTypes) &#123;</span><br><span class="line">            System.out.println(item.getTypeName());</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 返回类型的注解的相关信息，比如getAnnotations()等</span><br><span class="line">        AnnotatedType annotatedReturnType &#x3D; test.getAnnotatedReturnType();</span><br><span class="line">        AnnotatedType[] annotatedParameterTypes &#x3D; test.getAnnotatedParameterTypes();</span><br><span class="line">        AnnotatedType[] annotatedExceptionTypes &#x3D; test.getAnnotatedExceptionTypes();</span><br><span class="line">        &#x2F;&#x2F;@com.github.io.MyAnnotatedType()</span><br><span class="line">        System.out.println(annotatedReturnType.getAnnotations()[0]);</span><br><span class="line">        &#x2F;&#x2F;@com.github.io.MyAnnotatedType2()</span><br><span class="line">        System.out.println(annotatedParameterTypes[0].getAnnotations()[1]);</span><br><span class="line">        &#x2F;&#x2F;@com.github.io.MyAnnotatedType3()</span><br><span class="line">        System.out.println(annotatedExceptionTypes[0].getAnnotations()[0]);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public &lt;T, E extends IllegalStateException&gt; @MyAnnotatedType @MyAnnotatedType2 T test(@MyAnnotatedType @MyAnnotatedType2 String name, @MyAnnotatedType2 T t) throws @MyAnnotatedType3 E, IllegalArgumentException &#123;</span><br><span class="line">        return t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE_USE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotatedType &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE_USE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotatedType2 &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@Target(&#123;ElementType.TYPE_USE&#125;)</span><br><span class="line">@Retention(RetentionPolicy.RUNTIME)</span><br><span class="line">@interface MyAnnotatedType3 &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Type"><a href="#Type" class="headerlink" title="Type"></a>Type</h2><p>我们的<code>Class</code>是实现了该接口，他提供了一个方法<code>String getTypeName()</code>用于获取类型名称，不同实现不同。</p>
+<h2 id="Class"><a href="#Class" class="headerlink" title="Class"></a>Class</h2><p>Class对象是反射的基础，我们获取Class对象的方式有三种：</p>
+<pre><code>public class Person &#123;
+&#125;
+
+// 获取Class对象的方式
+        // 能引用到该类路径的时候，可以使用这种方式
+        Class&lt;Person&gt; clazz = Person.class;
+        //无法引用到类路径，但是知道他的类路径可以使用这种，但是他会抛出异常，因为路径可能是错误的
+        Class&lt;?&gt; clazz2 = Class.forName(&quot;com.github.sample.Person&quot;);
+        Person p =new  Person();
+        // 有改类的对象的时候，可以通过getClass得到Class对象
+        Class&lt;?&gt; clazz3 = p.getClass();
+</code></pre>
+<p>即：</p>
+<ol>
+<li>通过类名得到</li>
+<li>通过<code> Class.forName()</code>得到</li>
+<li>通过类对象得到</li>
+</ol>
+<h3 id="Class的常用方法"><a href="#Class的常用方法" class="headerlink" title="Class的常用方法"></a>Class的常用方法</h3><ol>
+<li><code>getName()</code> 获取类的完整名称，返回虚拟机里面的Class的标识,但是对于内部类(无论是静态还是非静态)，他是带有<code>$$</code>符号的，对于数组，他是以<code>L[</code>开头的</li>
+<li><code>getCanonicalName()</code>，一般情况下他与上面的一般是一样的，对于内部类(无论是静态还是非静态)，他是以<code>.</code>切割的，对于数组<code>array</code>，他说以标准类名+<code>[]</code>结尾</li>
+<li><code>getSimpleName()</code> 获取类名称，非全路径，内部类(无论是静态还是非静态)，都只是获取类名称，而不是带有<code>$$</code>形式的。</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">package com.github.io;</span><br><span class="line">class B &#123;</span><br><span class="line">        static class C&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;测试代码</span><br><span class="line">    B.C obj1 &#x3D; new B.C();</span><br><span class="line">    B.C[] obj2 &#x3D; new B.C[]&#123;&#125;;</span><br><span class="line">    Class clazz1 &#x3D; obj1.getClass();</span><br><span class="line">    Class clazz2 &#x3D; obj2.getClass();</span><br><span class="line">    System.out.println(clazz1.getName());</span><br><span class="line">    System.out.println(clazz1.getCanonicalName());</span><br><span class="line">    System.out.println(clazz1.getSimpleName());</span><br><span class="line"></span><br><span class="line">    System.out.println(clazz2.getName());</span><br><span class="line">    System.out.println(clazz2.getCanonicalName());</span><br><span class="line">    System.out.println(clazz2.getSimpleName());</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 输出</span><br><span class="line">com.github.io.B$C</span><br><span class="line">com.github.io.B.C</span><br><span class="line">C</span><br><span class="line">[Lcom.github.io.B$C;</span><br><span class="line">com.github.io.B.C[]</span><br><span class="line">C[]</span><br><span class="line">&#x2F;&#x2F; 需要注意的是使用Class.forName的时候，传入的路径的格式是与getName()类似的</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>getPackageName()</code>获取包名，内部类也只是获取包名，不包括他的外部类名称，获取数组的时候会带有<code>[]</code></li>
+<li><code>getFields()</code> 获取<code>public</code>的属性，包括父类的公共属性，假如二者名称一样，则会获取多个。</li>
+<li><code>getField(String name)</code>，获取特定<code>public</code>的属性，如果自身与父类都有这个<code>public</code>的，则获取自身，从下往上依次查找，不存在则抛出异常</li>
+<li><code>getDeclaredFields()</code>，获取自身声明的所有属性，无法获取父类的</li>
+<li><code>getDeclaredField(String name)</code>，获取自身声明的特定属性，不存在则抛出异常</li>
+<li><code>getMethods()</code>，获取自身的<code>public</code>方法，包括父类的，比如<code>Object</code>类的相关方法</li>
+<li><code>getMethod(String name)</code>，获取<code>public</code>方法，与<code>getField(String name)</code>差不多</li>
+<li><code>getDeclaredMethods()</code>，获取自身声明的所有方法，无法获取父类的</li>
+<li><code>getDeclaredMethod(String name)</code>，获取自身声明的特定方法与<code>getDeclaredField(String name)</code>差不多</li>
+<li><code>getConstructors()</code>，获取<code>public</code>的构造方法，非<code>public</code>类而且没有声明显式构造函数的时候返回的是空数组，<code>public</code>类而且没有声明返回默认构造函数，数组长度为1（即默认构造函数）。有声明则返回自身的<code>public</code>构造函数，无<code>public</code>的时候返回空数组</li>
+<li><code>getConstructor(Class&lt;?&gt;... parameterTypes)</code>，返回与parameterTypes参数类型一一对应类型的构造方法</li>
+<li><code>getDeclaredConstructors()</code>，返回自身声明的构造函数</li>
+<li><code>getDeclaredConstructor(Class&lt;?&gt;... parameterTypes)</code>，返回自身声明的而且与<code>parameterTypes</code>参数一一对应的构造函数</li>
+<li><code>newInstance()</code>，java9废弃，他会使用class的空构造函数创建对象，类没有的话会抛出异常。</li>
+</ol>
+<h3 id="Class的类型判断方法"><a href="#Class的类型判断方法" class="headerlink" title="Class的类型判断方法"></a>Class的类型判断方法</h3><p>类型比较的三个常用方法</p>
+<ol>
+<li><p><code>instanceof</code>，他说一个运算符，格式是<code>obj instanceof Class</code>，即<code>obj</code>的类型是否是<code>Class</code>的本身或者是他的子类，他表达的意思是<code>obj</code>是否可以转为<code>Class</code>类对象。注意点是<code>obj</code>不能是原始类型(Primitive)，它可以是包装类，其中<code>null instanceof Class</code>返回的是<code>false</code>。该操作符是从对象的角度。</p>
+</li>
+<li><p><code>isInstance(Object obj)</code>，他是class下的方法，标识当前的<code>class</code>对象是否是<code>obj</code>类相同或者是它的父类，是的话则返回true，即<code>obj</code>类是调用者自身或者子类，它与<code>instanceof</code>关键字不一样是，它的参数可以是原始类型的。</p>
+</li>
+<li><p><code>isAssignableFrom(Class&lt;?&gt; cls)</code>，当前对象是不是B的父类或者是接口，true即B类型的对象可以转化为A类型，该方法是从类的角度。</p>
+<p>子类实例 instanceof 父类类型<br>父类.class.isInstance(子类实例)<br>父类.class.isAssignableFrom(子类Class)</p>
+</li>
+</ol>
+<p>其他常用的判断方法：</p>
+<ol>
+<li><code>boolean isInterface()</code>，是否是接口</li>
+<li><code>boolean isArray()</code>，是否是数组对象</li>
+<li><code>boolean isPrimitive()</code>，是否是基本类型</li>
+<li><code>boolean isAnnotation()</code>，是否是注解</li>
+<li><code>boolean isAnonymousClass()</code>，是否是匿名类</li>
+<li><code>boolean isEnum()</code>，是否是枚举</li>
+<li><code>boolean isAnnotationPresent(@RecentlyNonNull Class&lt;? extends Annotation&gt; annotationClass)</code>，当前类型是否有被annotationClass类型注解，即声明当前类型的类上是否有annotationClass的注解。</li>
+<li><code>T cast(@RecentlyNullable Object obj)</code>,把obj对象为T对象，假如当前对象不是obj的父类或者自身，则抛出<code>ClassCastException</code>异常，使用较少。</li>
+</ol>
+<h3 id="Class的父类，接口"><a href="#Class的父类，接口" class="headerlink" title="Class的父类，接口"></a>Class的父类，接口</h3><ol>
+<li><code>String getSuperclass()</code>，获取父类Class对象</li>
+<li><code>String getPackage()</code>，获取该类的存放路径,基本类型或者是未经过类加载器加载的放回null，不常用</li>
+<li><code>String getPackageName()</code>，用于获取此实体的包名称，可以是数组，接口，基本类型等，假如是数组，则返回数组元素的最顶层的Class，比如有一个数组为<code>Object[]</code>，则返回<code>java.lang</code>，假如是基本类型的Class，则是返回<code>java.lang</code>。java9之后有该方法。</li>
+<li><code>Class&lt;?&gt;[] getInterfaces()</code>，获取所有实现的接口数组</li>
+<li><code>int getModifiers()</code>，返回该类的修饰符，比如是<code>public</code>或者是<code>public final</code>等，他可以通过<code>与(|)</code>操作指导是否被某个修饰符修饰。</li>
+<li><code>&lt;U&gt; Class&lt;? extends U&gt; asSubclass(Class&lt;U&gt; clazz)</code>，如果传入的<code>clazz</code>是当前<code>Class&lt;u&gt; clazz</code>的父类或者自身，则把自身强制转换为<code>Class&lt;u&gt;</code>对象，否则抛出<code>ClassCastException</code>异常</li>
+<li><code>Class&lt;?&gt; getComponentType()</code>，该方法是用于数组中，假如是非数组类型的Class对象调用，则返回的是null。我们可以通过该返回获取到数组的ComponentType，然后通过<code>Array</code>类中的静态方法<code>Object newInstance(Class&lt;?&gt; componentType, int length)</code>方法创建一个数组对象，其中传入的componentType可以是基本类型的，也可以是引用类型的。</li>
+</ol>
+<h2 id="Method"><a href="#Method" class="headerlink" title="Method"></a>Method</h2><p>获取Method对象，有下面四种方式，他们的区别上面就有说过了，我们看下Method的一些常用方法，父类的方法不再赘述。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Method[] getMethods()</span><br><span class="line">Method getMethod(String name, Class&lt;?&gt;... parameterTypes)</span><br><span class="line">Method[] getDeclaredMethods()</span><br><span class="line">Method getDeclaredMethod(String name, Class&lt;?&gt;... parameterTypes)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><code>Class&lt;?&gt; getReturnType()</code>，获取方法的返回类型</li>
+<li><code>Type getGenericReturnType()</code> 返回一个Type对象，该对象表示方法对象的形式返回类型，假如该方法的返回是泛型，则返回的是泛型的名称。 </li>
+<li><code>Object invoke(Object obj, Object... args)</code>，调用对象obj上的该方法，参数是args</li>
+<li><code>boolean isDefault()</code>，是否是接口的默认方法</li>
+<li><code>boolean isBridge()</code> 是否是桥接方法</li>
+<li><code>Object getDefaultValue()</code>，用户获取注解类的方法的默认值。</li>
+</ol>
+<h2 id="Constructor"><a href="#Constructor" class="headerlink" title="Constructor"></a>Constructor</h2><p>获取<code>Constructor</code>的方式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Constructor&lt;T&gt; getConstructor(Class&lt;?&gt;... parameterTypes) &#x2F;&#x2F; 获取public的特定参数的构造方法</span><br><span class="line">Constructor&lt;?&gt;[] getConstructors()&#x2F;&#x2F; 获取public的构造方法</span><br><span class="line">Constructor&lt;T&gt; getDeclaredConstructor(Class&lt;?&gt;... parameterTypes) &#x2F;&#x2F; 获取声明的特点构造函数</span><br><span class="line">Constructor&lt;?&gt;[] getDeclaredConstructors() 获取声明的所有构造函数</span><br></pre></td></tr></table></figure>
+
+<p>方法：</p>
+<ol>
+<li><code>T newInstance(Object ... initargs)</code> 实例化一个对象，<code>initargs</code>为传入的参数，需要与想使用的构造函数的参数一致，包括类型。</li>
+</ol>
+<h2 id="Parameter"><a href="#Parameter" class="headerlink" title="Parameter"></a>Parameter</h2><p>参数类，实现了<code>AnnotatedElement</code>接口，构造&#x2F;普通方法可以通过<code>Parameter[] getParameters()</code>获取到<code>Parameter</code>对象数组，父类的方法不再赘述，他的常用方法如下</p>
+<ol>
+<li><code>int getModifiers()</code> 获取修饰符</li>
+<li><code>String getName()</code> 获取名称</li>
+<li><code>Type getParameterizedType() </code>假如是泛型，则返回泛型名称， 否则返回<code>getType()</code>的值</li>
+<li><code>Class&lt;?&gt; getType()</code> 获取声明的类型</li>
+<li><code>AnnotatedType getAnnotatedType()</code> 获取<code>AnnotatedType</code>对象，进而可以获取注解</li>
+<li><code>boolean isVarArgs()</code>，是否是可变参数</li>
+</ol>
+<h2 id="Field"><a href="#Field" class="headerlink" title="Field"></a>Field</h2><p>获取Method对象，有下面四种方式，他们的区别上面就有说过了，我们看下Method的一些常用方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Field[] getFields()</span><br><span class="line">Field getField(String name)</span><br><span class="line">Field[] getDeclaredFields()</span><br><span class="line">Field getDeclaredField(String name)</span><br></pre></td></tr></table></figure>
+
+
+<ol>
+<li><code>boolean isEnumConstant()</code> 是否是枚举元素</li>
+<li><code>Class&lt;?&gt; getType()</code> 获取变量声明类型Class</li>
+<li><code>Type getGenericType()</code>，获取变量声明的类型，假如是泛型则返回泛型符号</li>
+<li><code>Object get(Object obj)</code> 获取<code>obj</code>对象的对应的该field值，其他的get方法类似</li>
+<li><code>set(Object obj, Object value)</code>，无论该set方法还是其他的set方法，都是设置<code>obj</code>对象上的field的值为<code>value</code></li>
+<li><code>AnnotatedType getAnnotatedType()</code> 返回一个<code>AnnotatedType</code>对象，该对象表示此Field表示的字段的声明类型，可以获取相关的注解信息。</li>
+</ol>
+<h2 id="Modifier"><a href="#Modifier" class="headerlink" title="Modifier"></a>Modifier</h2><p>该类是用来提供计算某个类&#x2F;方法&#x2F;构造函数&#x2F;数学等是否被某个限定修饰符修饰了，通过他们自身的<code>getModifiers()</code>得到一个修饰符总和，之后他的返回参数作为Modifier类的相关方法传入参数：</p>
+<ol>
+<li><code>isPublic(int mod)</code>是否是public方法</li>
+<li><code>isPrivate(int mod)</code> 是否是private方法</li>
+<li><code>isProtected(int mod)</code> </li>
+<li><code>isStatic(int mod)</code></li>
+<li><code>isFinal(int mod)</code></li>
+<li><code>isSynchronized(int mod)</code></li>
+<li><code>isVolatile(int mod)</code></li>
+<li><code>isTransient(int mod)</code></li>
+<li><code> isNative(int mod)</code> 是否是本地方法</li>
+<li><code>isInterface(int mod)</code> 是否被interface修饰</li>
+<li><code>isAbstract(int mod)</code> 是否是抽象</li>
+<li><code>isStrict(int mod)</code></li>
+</ol>
+<p>还提供了一些列获取修饰符的值的方法，比如<code>private</code>修饰符的值等</p>
+<ol>
+<li><code>int interfaceModifiers()</code> 可以修饰Interface的修饰符的<code>|</code>值</li>
+<li><code>int constructorModifiers()</code>可以修饰Constructor的修饰符的<code>|</code>值</li>
+<li><code>int methodModifiers()</code>可以修饰方法的修饰符的<code>|</code>值</li>
+<li><code>int fieldModifiers()</code> ，可以修饰filed的修饰符的<code>|</code>值</li>
+<li><code>parameterModifiers()</code>，可以修饰参数的修饰符</li>
+</ol>
+<h2 id="注意点"><a href="#注意点" class="headerlink" title="注意点"></a>注意点</h2><ol>
+<li>我们使用反射的时候，被<code>static final</code>修饰的字符串或者是基本类型的变量，是无法对它做出修改的，只能读取。</li>
+<li>我们的异常类的声明的时候是无法使用泛型的。</li>
+</ol>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/94065894">getType() 和 getGenericType() 有什么区别</a></li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/10/12/dart-base/" class="archive-article-date">
-  	<time datetime="2020-10-12T03:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-12</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2022/11/09/kotlin_exception/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Kotlin的异常处理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/10/16/java_stack/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">获取Java的方法调用栈</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/10/12/dart-base/">Dart的基础语法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Dart</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#AnnotatedElement%E7%B1%BB"><span class="toc-number">1.</span> <span class="toc-text">AnnotatedElement类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AccessibleObject"><span class="toc-number">2.</span> <span class="toc-text">AccessibleObject</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Member"><span class="toc-number">3.</span> <span class="toc-text">Member</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GenericDeclaration"><span class="toc-number">4.</span> <span class="toc-text">GenericDeclaration</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Executable"><span class="toc-number">5.</span> <span class="toc-text">Executable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Type"><span class="toc-number">6.</span> <span class="toc-text">Type</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Class"><span class="toc-number">7.</span> <span class="toc-text">Class</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Class%E7%9A%84%E5%B8%B8%E7%94%A8%E6%96%B9%E6%B3%95"><span class="toc-number">7.1.</span> <span class="toc-text">Class的常用方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Class%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95"><span class="toc-number">7.2.</span> <span class="toc-text">Class的类型判断方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Class%E7%9A%84%E7%88%B6%E7%B1%BB%EF%BC%8C%E6%8E%A5%E5%8F%A3"><span class="toc-number">7.3.</span> <span class="toc-text">Class的父类，接口</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Method"><span class="toc-number">8.</span> <span class="toc-text">Method</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Constructor"><span class="toc-number">9.</span> <span class="toc-text">Constructor</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Parameter"><span class="toc-number">10.</span> <span class="toc-text">Parameter</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Field"><span class="toc-number">11.</span> <span class="toc-text">Field</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Modifier"><span class="toc-number">12.</span> <span class="toc-text">Modifier</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E7%82%B9"><span class="toc-number">13.</span> <span class="toc-text">注意点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%A8%E8%8D%90%E9%98%85%E8%AF%BB"><span class="toc-number">14.</span> <span class="toc-text">推荐阅读</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
   
-    </div></section>
   
 
-    
+  
 
+  
+
+  
 
 
           </div>
@@ -253,8 +462,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
