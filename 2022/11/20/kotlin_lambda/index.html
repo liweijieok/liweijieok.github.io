@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>liweijie</title>
+  <title>Kotlin的Lambda与函数内联 | liweijie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="liweijie">
-<meta property="og:url" content="http://example.com/page/2/index.html">
+  <meta name="description" content="在kotlin种，函数是一等公民，我们就需要对kotlin的函数进行一些较深入的了解，主要是下面四块，其他一些常见的，比如顶层函数就不说了主要是四块  函数引用与匿名函数 Lambda表达式 函数内联 函数接受者">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kotlin的Lambda与函数内联">
+<meta property="og:url" content="http://example.com/2022/11/20/kotlin_lambda/index.html">
 <meta property="og:site_name" content="liweijie">
+<meta property="og:description" content="在kotlin种，函数是一等公民，我们就需要对kotlin的函数进行一些较深入的了解，主要是下面四块，其他一些常见的，比如顶层函数就不说了主要是四块  函数引用与匿名函数 Lambda表达式 函数内联 函数接受者">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-19T16:00:00.000Z">
+<meta property="article:modified_time" content="2022-11-20T10:31:58.354Z">
 <meta property="article:author" content="liweijie">
+<meta property="article:tag" content="Kotlin">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="liweijie" type="application/atom+xml">
@@ -138,355 +143,130 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-eventbus5" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-kotlin_lambda" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/25/eventbus5/">EventBus3.0源码解析-最佳实践本文</a>
+    <h1 class="article-title" itemprop="name">
+      Kotlin的Lambda与函数内联
     </h1>
   
 
         
-        <a href="/2022/05/25/eventbus5/" class="archive-article-date">
-  	<time datetime="2022-05-25T11:52:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-25</time>
+        <a href="/2022/11/20/kotlin_lambda/" class="archive-article-date">
+  	<time datetime="2022-11-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-20</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+        <p>在kotlin种，函数是一等公民，我们就需要对kotlin的函数进行一些较深入的了解，主要是下面四块，其他一些常见的，比如顶层函数就不说了<br>主要是四块</p>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/05/eventbus2/">register流程分析(反射方式)</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/16/eventbus3/">register流程分析(注解方式)</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/17/eventbus4/">stickey消息实现和处理</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/25/eventbus5/">最佳实践【本文】】</a></li>
+<li>函数引用与匿名函数</li>
+<li>Lambda表达式</li>
+<li>函数内联</li>
+<li>函数接受者</li>
 </ol>
-        
-          <a class="article-more-a" href="/2022/05/25/eventbus5/#more">more >></a>
-        
-      
+<span id="more"></span>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<h2 id="函数引用与匿名函数"><a href="#函数引用与匿名函数" class="headerlink" title="函数引用与匿名函数"></a>函数引用与匿名函数</h2><h3 id="函数引用"><a href="#函数引用" class="headerlink" title="函数引用"></a>函数引用</h3><p>在Kotlin种一切皆是对象，函数也不例外，我们可以把一个<code>函数</code>（实质上是一个对象）作为参数去传递，通过<code>::</code>的方式可以把一个函数转换一个指向该函数的引用，然后该引用就可以作为参数传递。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">fun test(a:Int)&#123;</span><br><span class="line">    println(a)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun test2(f:(Int)-&gt;Unit)&#123;</span><br><span class="line">    f(2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main() &#123;</span><br><span class="line">    &#x2F;&#x2F; 得到指向test方法的引用，他指向了一个kt帮我们生成的对象</span><br><span class="line">    val obj &#x3D; ::test</span><br><span class="line">    obj(1) &#x2F;&#x2F; 这样也可以直接的调用</span><br><span class="line">    test2(obj)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-eventbus4" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/17/eventbus4/">EventBus3.0源码解析-Sticky事件实现</a>
-    </h1>
-  
-
-        
-        <a href="/2022/05/17/eventbus4/" class="archive-article-date">
-  	<time datetime="2022-05-17T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<h3 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h3><p><code>::</code>的方式是Kotlin会为我们生成一个匿名对象，调用该对象的invoke方法或者是按照方法调用该对象，即等同于调用该方法。除了通过<code>::</code>的方式，我们还可以通过匿名函数来得到一个指向该方法的引用(也是生成了对象)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; fun后不需要函数名称</span><br><span class="line">val f &#x3D; fun(a: Int) &#123;</span><br><span class="line">    println(a)</span><br><span class="line">&#125;</span><br><span class="line">fun test(f: (Int) -&gt; Unit) &#123;</span><br><span class="line">    f(3)</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    f(1)</span><br><span class="line">    f.invoke(2)</span><br><span class="line">    test(f)</span><br><span class="line">    &#x2F;&#x2F;这种我们一般也不这么去写，会写成Lambda的形式</span><br><span class="line">    test(fun(a: Int) &#123;</span><br><span class="line">        println(a)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在kotlin种，我们可以把匿名函数作为变量传递，所以本质上匿名函数不是一个函数，而是一个对象。通过上面匿名函数的例子，我们可以看到匿名函数进行一定的转换，他是可以变为lambda的，比如上面的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">val f &#x3D;&#123;a:Int-&gt;</span><br><span class="line">    println(a)</span><br><span class="line">&#125;</span><br><span class="line">fun test(f: (Int) -&gt; Unit) &#123;</span><br><span class="line">    f(3)</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test(f)</span><br><span class="line">    test&#123;</span><br><span class="line">        println(it)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从本质上说，Lambda也是一个匿名函数类型的对象，下面我们开始分析下Lambda的一些特点，在调用Lambda与匿名函数的时候，有一个区别是能否使用<code>return</code>，后者可以，前者不可以，后者可以在匿名方法的声明中使用<code>return</code>关键字，有返回值的时候也只能使用<code>return</code>关键字，前者在非<code>inline</code>函数中无法使用<code>return</code>，但是可以直接<code>return@</code></p>
+<h2 id="Lambda表达式"><a href="#Lambda表达式" class="headerlink" title="Lambda表达式"></a>Lambda表达式</h2><p>一般Lambda会有三种用法：</p>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/05/eventbus2/">register流程分析(反射方式)</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/16/eventbus3/">register流程分析(注解方式)</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/17/eventbus4/">stickey消息实现和处理【本文】</a></li>
-<li>最佳实践</li>
+<li>声明为对象被调用</li>
+<li>声明为函数的参数(这样的函数也叫高阶函数)</li>
+<li>作为函数参数返回(这种也是高阶函数)</li>
 </ol>
-        
-          <a class="article-more-a" href="/2022/05/17/eventbus4/#more">more >></a>
-        
-      
+<p>声明为对象的时候</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 无参的</span><br><span class="line">val l &#x3D; &#123;&#125;</span><br><span class="line">&#x2F;&#x2F; 有参数的需要同时说明参数类型，使用-&gt;分割参数与lambda体,多个参数不能使用()包裹，lambda体不能在使用&#123;&#125;包裹。</span><br><span class="line">val l1 &#x3D; &#123;a:Int,b:Int-&gt;</span><br><span class="line">    a+b</span><br><span class="line">&#125;</span><br><span class="line">val l2 &#x3D; &#123;a:Int,b:String-&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>作为函数的参数的时候（注意Lambda的参数个数相同是看作同样的方法，他们的方法名称不能一样，其中Lambda表达式的参数部分的<code>()</code>不能省略）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 无参和无返回值的</span><br><span class="line">fun test(f:()-&gt;Unit)&#123;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 有参数的，其中Lambda种的参数名称a是可以省略的，下面的没省略</span><br><span class="line">fun test(f:(a:Int)-&gt;Unit)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 有返回值的，他的方法名称不能与上面的类似</span><br><span class="line">fun test1(f:(Int)-&gt;Boolean)&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 有默认值的，与普通参数的默认值一样</span><br><span class="line">&#x2F;&#x2F; 传入的Lambda的默认值是空的时候，是类型体包裹一个()?，不能包裹函数的变量</span><br><span class="line">fun test2(f:(()-&gt;Unit)?&#x3D;null) &#123;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 非空默认值</span><br><span class="line">fun test1(f: (Int, Int) -&gt; Boolean &#x3D; &#123; a: Int, b: Int -&gt; a + b &gt; 0 &#125;) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<p>作为函数返回值(闭包)，因为Lambda表达式它最终来说还是一个对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">fun test(): () -&gt; Unit &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        println(&quot;xx&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">fun test(a: Int): (String) -&gt; String &#123;</span><br><span class="line">    val lambda &#x3D; &#123; text: String -&gt;</span><br><span class="line">        if (a &gt; 0) &#123;</span><br><span class="line">            text + a</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            text + a</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return lambda</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test()</span><br><span class="line">    val result &#x3D; test(1)</span><br><span class="line">    println(result(&quot;sss&quot;))</span><br><span class="line">    &#x2F;&#x2F; 也可以直接 test(1)(&quot;sss&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
+<p>Lambda表达式的返回值：在Kotlin的Lambda中，是他的最后一行作为返回值返回的，我们不需要声明返回值的类型，也不需要使用<code>return</code>，他会自动推断</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">val sum &#x3D; &#123;a:Int,b:Int-&gt;a+b&#125; &#x2F;&#x2F;返回值是Int</span><br><span class="line">val result&#x3D;sum(1,1) &#x2F;&#x2F; result&#x3D;2</span><br><span class="line">val compare &#x3D; &#123; a: Int, b: Int -&gt;</span><br><span class="line">        if (a &gt; b) 1</span><br><span class="line">        else if (a &lt; b) -1 </span><br><span class="line">        else 0</span><br><span class="line">    &#125;  &#x2F;&#x2F;返回值是Int</span><br><span class="line">val result &#x3D; compare(1,2) &#x2F;&#x2F;result&#x3D;-1</span><br><span class="line"></span><br><span class="line">val test &#x3D; &#123;</span><br><span class="line">     println(&quot;test&quot;)</span><br><span class="line">&#125; &#x2F;&#x2F; 返回值是Unit</span><br><span class="line">test()</span><br></pre></td></tr></table></figure>
 
-      
+<p>假如我们需要终止Lambda的后续调用，可以使用<code>return@</code>的形式。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fun test(f: (Int) -&gt; Boolean) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun main() &#123;</span><br><span class="line">    val result &#x3D; test &#123; </span><br><span class="line">        if(it&gt;0)&#123;</span><br><span class="line">            return@test  true</span><br><span class="line">        &#125;</span><br><span class="line">        return@test false</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 也可以直接</span><br><span class="line">    val result2 &#x3D; test &#123;</span><br><span class="line">        it&gt;0</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
+<p>Lambda的别名，有时候，我们写函数参数的时候需要有挺多个或者是重复的Lambda，我们可以通过定义别名的方式来简便写法，使用<code>typealias</code>关键字，这样代码看起来就简洁很多。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">typealias FunOne &#x3D; ()-&gt;Unit</span><br><span class="line"></span><br><span class="line">fun test3(f:FunOne)&#123;</span><br><span class="line">&#125;</span><br><span class="line">fun test4(f:FunOne?&#x3D;null)&#123;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">test3&#123;&#125;</span><br><span class="line">&#x2F;&#x2F;f可空就可以不创</span><br><span class="line">test4()</span><br></pre></td></tr></table></figure>
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-eventbus3" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/16/eventbus3/">EventBus3.x源码解析-register流程分析(注解方式)</a>
-    </h1>
-  
-
-        
-        <a href="/2022/05/16/eventbus3/" class="archive-article-date">
-  	<time datetime="2022-05-16T12:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<p>Lambda的传参调用例子:</p>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/05/eventbus2/">register流程分析(反射方式)</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/16/eventbus3/">register流程分析(注解方式)【本文】</a></li>
-<li>stickey消息实现和处理</li>
-<li>最佳实践</li>
+<li>当Lambda表达式只有一个参数的时候可以省略，使用<code>it</code>指代</li>
+<li>当参数不需要被调用的时候，可以使用<code>_</code>。</li>
 </ol>
-        
-          <a class="article-more-a" href="/2022/05/16/eventbus3/#more">more >></a>
-        
-      
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 当lambda变量是参数的最后一个的时候，可以写在调用的外面，当只有一个参数而且该参数是lambda的时候，可以省略()</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test&#123;&#125;</span><br><span class="line">    test(0)&#123;&#125;</span><br><span class="line">    test(0,&#123;&#125;)&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fun test(f:()-&gt;Unit)&#123;</span><br><span class="line">&#125;</span><br><span class="line">fun test(a:Int,f:()-&gt;Unit)&#123;</span><br><span class="line">&#125;</span><br><span class="line">fun test(a:Int,f:()-&gt;Unit,f2:()-&gt;Unit)&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;当Lambda的参数只有一个的时候，可以省略,it代表了当前的传入的参数</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test &#123;</span><br><span class="line">        println(it) &#x2F;&#x2F;打印 hello work</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 不使用参数，可以使用_</span><br><span class="line">    test&#123;_,_-&gt;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">fun test(f: (String) -&gt; Unit) &#123;</span><br><span class="line">    f(&quot;hello work&quot;)</span><br><span class="line">&#125;</span><br><span class="line">fun test(f:(String,String)-&gt;Unit)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-eventbus2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/05/eventbus2/">EventBus3.x源码解析-register流程分析(反射方式)</a>
-    </h1>
-  
-
-        
-        <a href="/2022/05/05/eventbus2/" class="archive-article-date">
-  	<time datetime="2022-05-05T12:59:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<p><code>Lambda</code>与SAM转换：参考文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/vitaviva/article/details/104055623">Kotlin的SAM转换</a></p>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/05/eventbus2/">register流程分析(反射方式)</a>【本文】</li>
-<li>register流程分析(注解方式)</li>
-<li>stickey消息实现和处理</li>
-<li>最佳实践</li>
+<li>SAM接口，即单一方法的Java定义的接口其实就是Kotlin种的Lambda兼容了Java中的SAM，让他的调用可以像Kotlin调用普通的高阶函数一样</li>
+<li>kotlin定义的接口类型作为参数，不能使用Lambda，需要使用匿名内部类的方式（kotlin在1.4之后做了一个优化，使用fun修饰的只有单一方法的interface可以）</li>
+<li><code>KClass</code>，就是Kotlin种定义的Class对象，可以使用<code>return</code>，但是需要显示的转换为<code>KClass</code>，不能像<code>SAM</code>那样省略，这种做法也一般不推荐。</li>
 </ol>
-        
-          <a class="article-more-a" href="/2022/05/05/eventbus2/#more">more >></a>
-        
-      
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">1. </span><br><span class="line">&#x2F;&#x2F; java定义的</span><br><span class="line">public interface ITest &#123;</span><br><span class="line">    boolean doSomething(int a);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; kotlin种调用</span><br><span class="line">fun test(test: ITest) &#123;</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test &#123;</span><br><span class="line">        if (it &gt; 0) &#123;</span><br><span class="line">            &#x2F;&#x2F; 不在执行下面的语句</span><br><span class="line">            return@test false &#x2F;&#x2F; return@test就表示结束test Lambda的调用</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 直接返回true，当然也可以加上return@test</span><br><span class="line">        true</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">1. </span><br><span class="line">&#x2F;&#x2F; 假如是普通的kotlin单一方法接口 interface则无法使用，因为官方更希望使用函数式的编程，因为一般单一接口类型的变量都可以使用Lambda代替，当然我们也可以使用上面说的typealias来代替一般的接口也可以。</span><br><span class="line"></span><br><span class="line">interface ITest2&#123;</span><br><span class="line">    fun doSomething(a:Int):Boolean</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 使用了fun 修饰的</span><br><span class="line">fun interface ITest3&#123;</span><br><span class="line">    fun doSomething(a:Int):Boolean</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;ITest2作为参数</span><br><span class="line">fun test(test: ITest2) &#123;</span><br><span class="line">&#125;</span><br><span class="line">fun test2(test: ITest3) &#123;</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    &#x2F;&#x2F; 不能写成Lambda的方式，只能写出匿名内部类</span><br><span class="line">    test(object :ITest2&#123;</span><br><span class="line">        override fun doSomething(a: Int): Boolean &#123;</span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    test2 &#123;</span><br><span class="line">        it &lt;&#x3D; 0</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">3. </span><br><span class="line">&#x2F;&#x2F; 使用KClass的时候，我们可以使用return关键字</span><br><span class="line">class Test(val doSomething: (Int) -&gt; Boolean)</span><br><span class="line">fun test(test: Test) &#123;</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test(Test &#123;</span><br><span class="line">        if (it &gt; 0) &#123;</span><br><span class="line">            return@Test false</span><br><span class="line">        &#125;</span><br><span class="line">        true</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<h2 id="函数内联"><a href="#函数内联" class="headerlink" title="函数内联"></a>函数内联</h2><p>函数内联使用的关键字是<code>inline</code>，用于修饰方法。<code>inline</code>函数会在被调用的地方复制一份方法代码(代码内嵌)，同时会把函数参数也给铺平（即方法体+传参的lambda都会被铺平），而不是通过方法栈的形式被调用。比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    test()</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline fun test()&#123;</span><br><span class="line">    println(&quot;h&quot;)</span><br><span class="line">    val a &#x3D; 1+1</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 方法栈的调用深度等同于，编译之后也是类似这样的</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">    println(&quot;h&quot;)</span><br><span class="line">    val a &#x3D; 1+1</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 铺平例子</span><br><span class="line">inline fun test(f:()-&gt;Unit)&#123;</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">    f()</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test&#123;</span><br><span class="line">        println(&quot;hello&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 相当于下面代码，他会把test铺平，也会把传入的lambda参数也铺平</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">    println(&quot;hello&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>那么<code>inline</code>内联函数有什么作用呢？经过上面对于匿名函数与Lambda的梳理，我们知道他们从本质上来说是一类对象，那么这里就会引出一个问题，假如我们频繁的调用高阶函数，那么他每一次就会产生一个对象，假如循环数较大就会耗费较多的内存。比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">   for (i in 0..100)&#123;</span><br><span class="line">       test&#123;&#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">fun test(f:()-&gt;Unit)&#123;</span><br><span class="line">    println(&quot;h&quot;)</span><br><span class="line">    val a &#x3D; 1+1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在循环中调用了<code>test()</code>方法，就会创建大量的看不到的函数对象，这时候我们引入了<code>inline</code>方法就可以解决这个问题了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">   for (i in 0..100)&#123;</span><br><span class="line">       test&#123;&#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">inline fun test(f:()-&gt;Unit)&#123;</span><br><span class="line">    println(&quot;h&quot;)</span><br><span class="line">    val a &#x3D; 1+1</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; 等同于</span><br><span class="line">fun main(args: Array&lt;String&gt;) &#123;</span><br><span class="line">   for (i in 0..100)&#123;</span><br><span class="line">       println(&quot;h&quot;)</span><br><span class="line">       val a &#x3D; 1+1</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样也就不会每次循环都生成一个函数对象了，<code>inline</code>修饰的方法会在编译的时候把该方法复制一份到被调用处。<br>对于<code>inline</code>函数的函数体不适宜过大，因为随意调用可能会导致<code>inline</code>函数被到处复制代码从而导致编译之后的包变大，一般而言是对于循环中调用的高阶函数使用该修饰符，普通方法中是不推荐使用<code>inline</code>的。当然了，对于我们一些lib库中定义的高阶方法，我们是推荐使用<code>inline</code>修饰的，因为你不知道外部调用者是否会在循环体中调用该方法，所以最好是加上<code>inline</code>修饰。</p>
+<p><code>inline</code>的函数调用支持<code>return</code>去终止方法的后续调用，即假如在<code>inline</code>函数中使用了<code>return</code>而不是<code>return@</code>的形式，他会直接终止后续的调用，例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">fun test(f: () -&gt; Unit) &#123;</span><br><span class="line">&#125;</span><br><span class="line">inline fun test2(f: () -&gt; Unit) &#123;</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    println(&quot;start&quot;)</span><br><span class="line">    test &#123;</span><br><span class="line">        println(&quot;test&quot;)</span><br><span class="line">        &#x2F;&#x2F; 只能使用return@，不会结束外部函数的调用</span><br><span class="line">        return@test</span><br><span class="line">    &#125;</span><br><span class="line">    test2 &#123;</span><br><span class="line">        println(&quot;test2 1&quot;)</span><br><span class="line">        &#x2F;&#x2F; 只能使用return@，不会结束外部函数的调用</span><br><span class="line">        return@test2</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    test2 &#123;</span><br><span class="line">        println(&quot;test2 2&quot;)</span><br><span class="line">        &#x2F;&#x2F; 会结束了main的调用</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 不会被执行</span><br><span class="line">    println(&quot;will no print&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
+<p><code>inline</code>与<code>refied</code>关键字：首先<code>refied</code>是修饰泛型参数的，用在<code>inline</code>方法中。我们在Java中是无法通过泛型来获取<code>Class</code>对象的，但是kotlin可以做到，即通过<code>inline</code>修饰的方法加上使用<code>refied</code>修饰的泛型即可拿到。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public &lt;T&gt; void test(List&lt;T&gt; list)&#123;</span><br><span class="line">        &#x2F;&#x2F; 无法获取T的Class类型，下面代码会报错</span><br><span class="line">        T.class</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; kitlin 代码，可以获取到T的Class</span><br><span class="line">inline fun &lt;reified T&gt; test(t:T) &#123;</span><br><span class="line">T::class.javaClass</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是使用了<code>refield</code>修饰的泛型不会像java一样会被搽除，因为编译的时候他会把方法体复制并具体化。</p>
+<p><code>noinline</code>，用于修饰<code>lambda</code>参数（不能修饰普通参数），他是与<code>inline</code>相反的，使用它修饰的<code>lambda</code>参数不会被铺平，会生成函数对象，同时它只能是在<code>inline</code>函数中使用，这时候是只有调用的方法体被铺平了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">inline fun test(f: () -&gt; Unit, noinline f2: () -&gt; Unit) &#123;</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">    f()</span><br><span class="line">    f2()</span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    test(&#123;</span><br><span class="line">        println(&quot;hello&quot;)</span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        println(&quot;hello1&quot;)</span><br><span class="line">    &#125;)</span><br><span class="line">    &#x2F;&#x2F; 相当于</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">    println(&quot;hello&quot;)</span><br><span class="line">    (&#123;</span><br><span class="line">        println(&quot;hello1&quot;)</span><br><span class="line">    &#125;).invoke()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>noinline</code>作用在于可以做到让方法返回参数中的函数引用，在<code>inline</code>修饰的方法中，我们是直接让方法体全都铺平了，包括作为参数传入的lambda，他是无法做到返回一个作为参数传入的函数对象的。例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">inline fun test(f: () -&gt; Unit): () -&gt; Unit &#123;</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">     f()</span><br><span class="line">    &#x2F;&#x2F; 编译报错，因为f在test被调用的时候也会铺平</span><br><span class="line">    return f</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline fun test2(noinline f: () -&gt; Unit): () -&gt; Unit &#123;</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">     f()</span><br><span class="line">    &#x2F;&#x2F;可以返回传入的函数参数f</span><br><span class="line">    return f</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline fun test3(noinline f: () -&gt; Unit): () -&gt; Unit &#123;</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">    f()</span><br><span class="line">    &#x2F;&#x2F;这里如果不需要返回f，可以去掉noinline</span><br><span class="line">    return &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>noinlie</code>总来的来说用来局部的指向性的关闭<code>inline</code>优化，同时注意在<code>noinlie</code>的参数中也是不允许使用<code>return</code>的，因为他是相当于普通的函数参数。</p>
+<p><code>noinlie</code>的使用还有一个点，在一个<code>inline</code>函数调用一个非<code>inline</code>函数的时候，假如是需要把参数中的lambda参数传递给非<code>inline</code>函数，则该参数需要使用<br><code>noinlie</code>修饰，否则的话会报错，因为<code>inline</code>函数的函数参数他会被铺平，但是被调用者是不会的，这时候他胡产生冲突。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">fun test(f:()-&gt;Unit)&#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline fun test2( f:()-&gt;Unit)&#123;</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">    &#x2F;&#x2F; 编译报错，Illegal usage of inline-parameter</span><br><span class="line">    test(f)</span><br><span class="line">&#125;</span><br><span class="line">inline fun test2(noinline f:()-&gt;Unit)&#123;</span><br><span class="line">    println(&quot;hi&quot;)</span><br><span class="line">    &#x2F;&#x2F; 正常执行</span><br><span class="line">    test(f)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
+<p><code>crossinline</code>，它也是用于修饰<code>inline</code>方法的函数参数的，与<code>noinline</code>的一些作用相反，在<code>inline</code>函数调用非<code>inline</code>函数的时候，我依然希望传入lambda是铺平的，它也可以传递给别的非<code>inline</code>，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">fun test(f: () -&gt; Unit) &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inline fun test2( f: () -&gt; Unit) &#123;</span><br><span class="line">   &#x2F;&#x2F; 编译报错，假如我们不需要f内联，可以使用noinline</span><br><span class="line">   test&#123;</span><br><span class="line">       f()</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">inline fun test3(crossinline f: () -&gt; Unit) &#123;</span><br><span class="line">    &#x2F;&#x2F; 编译正常</span><br><span class="line">    test&#123;</span><br><span class="line">        f()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意，就算我们使用了<code>crossinline</code>修饰，参数也不能作为参数传递给另外一个非<code>inline</code>函数，假如需要传递，还是需要<code>noinlie</code>，需要函数参数作为返回值也是需要使用<code>noinline</code>。例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">inline fun test4(crossinline f: () -&gt; Unit) &#123;</span><br><span class="line">    &#x2F;&#x2F; 编译报错，要传递f只能使用noinlie</span><br><span class="line">    test(f)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>还有一点就是我们的函数参数被非<code>inline</code>方法间接调用，使用了<code>crossinline</code>来加强内联，则我们调用处是不能使用<code>return</code>关键字的，因为不知道是结束哪一处的调用，比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fun main() &#123;</span><br><span class="line">    test3 &#123; </span><br><span class="line">        &#x2F;&#x2F; 编译报错</span><br><span class="line">        return</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-eventbus1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/05/04/eventbus1/">EventBus3.x源码解析-post流程</a>
-    </h1>
-  
-
-        
-        <a href="/2022/05/04/eventbus1/" class="archive-article-date">
-  	<time datetime="2022-05-04T03:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="前文"><a href="#前文" class="headerlink" title="前文"></a>前文</h2><p>由于EventBus的源码还是比较的复杂的，打算使用五篇文章从浅入深的分析它的源码。包括：</p>
+<p>总结就是：</p>
 <ol>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/05/04/eventbus1/">post流程的分析</a>【本文】</li>
-<li>register流程分析(反射方式)</li>
-<li>register流程分析(注解方式)</li>
-<li>stickey消息实现和处理</li>
-<li>最佳实践</li>
+<li><code>inline</code>修饰函数，一般只修饰高级函数，修饰之后会把方法体和函数对象铺平调用，使用了<code>return</code>关键字之后会结束外部方法的调用。</li>
+<li><code>noinline</code>用于修饰<code>inline</code>方法中的函数类型参数，被修饰的参数可以传递给非<code>inline</code>函数，也可以作为返回值，不能使用<code>return</code>。</li>
+<li><code>crossline</code>，假如我们函数参数需要被间接调用，而且我们希望该参数也内联，则使用<code>crossline</code>，调用时不能使用<code>return</code>。</li>
 </ol>
-        
-          <a class="article-more-a" href="/2022/05/04/eventbus1/#more">more >></a>
-        
+<h2 id="函数接受者"><a href="#函数接受者" class="headerlink" title="函数接受者"></a>函数接受者</h2><p>我们在kotlin中经常的使用<code>apply</code>，<code>also</code>，<code>let</code>，<code>run</code>等，我们可以看一下他们的声明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public inline fun &lt;T&gt; T.apply(block: T.() -&gt; Unit): T &#123;</span><br><span class="line">    contract &#123;</span><br><span class="line">        callsInPlace(block, InvocationKind.EXACTLY_ONCE)</span><br><span class="line">    &#125;</span><br><span class="line">    block()</span><br><span class="line">    return this</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们可以看到参数<code>block</code>中的函数类型使用了<code>T.()</code>，这就是一个函数接受者的例子，表示可以在调用的时候，直接使用<code>T</code>中的变量和方法，<code>block</code>也需要被<code>T</code>的对象调用，所以<code>apply</code>中的<code>this</code>代表的是调用对象。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">class Person(val name:String,val age:Int)&#123;</span><br><span class="line">    fun sayHi()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">fun &lt;T&gt; T.test(f:T.()-&gt;Unit)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line">fun main() &#123;</span><br><span class="line">    val p &#x3D; Person(&quot;a&quot;,10)</span><br><span class="line">    p.test &#123;</span><br><span class="line">        &#x2F;&#x2F; this代表的是p对象</span><br><span class="line">        println(this.age)</span><br><span class="line">        &#x2F;&#x2F; 也可以简写为</span><br><span class="line">        println(age)</span><br><span class="line">        sayHi()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>T().</code>与<code>(T)</code>的区别，比如<code>apply</code>与<code>also</code>，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public inline fun &lt;T&gt; T.also(block: (T) -&gt; Unit): T &#123;</span><br><span class="line">    contract &#123;</span><br><span class="line">        callsInPlace(block, InvocationKind.EXACTLY_ONCE)</span><br><span class="line">    &#125;</span><br><span class="line">    block(this)</span><br><span class="line">    return this</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>调用的时候<code>also</code>中的<code>this</code>是当前类，调用者是通过<code>it</code>来获取，这就是<code>T().</code>与<code>(T)</code>的区别。</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/343234358">一文彻底搞懂Kotlin inline</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/78571521">Kotlin 中的 lambda，这一篇就够了</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kz4y1f7sf/?spm_id_from=333.788&vd_source=6aac8ca8949b6a2665d0e27da6f8c782">Kotlin 源码里成吨的 noinline 和 crossinline 是干嘛的？</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1kp4y1C7DE/?spm_id_from=333.788&vd_source=6aac8ca8949b6a2665d0e27da6f8c782">Kotlin 的 Lambda，大部分人学得连皮毛都不算</a></li>
+</ol>
+
       
 
       
@@ -499,7 +279,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Kotlin</a>
         		</li>
       		
 		</ul>
@@ -514,6 +294,18 @@
     </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2022/11/09/kotlin_exception/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Kotlin的异常处理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -533,375 +325,15 @@
 
 
 
-
-  
-    <article id="post-adb_cmd" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/10/06/adb_cmd/">adb常见命令【置顶】</a>
-    </h1>
-  
-
-        
-        <a href="/2021/10/06/adb_cmd/" class="archive-article-date">
-  	<time datetime="2021-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-10-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>常用的adb命令的记录</p>
-        
-          <a class="article-more-a" href="/2021/10/06/adb_cmd/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-mediator_livedata" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/24/mediator_livedata/">Jetpack之MediatorLiveData使用</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/24/mediator_livedata/" class="archive-article-date">
-  	<time datetime="2021-05-24T07:20:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-24</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>他是LiveData的一个子类，通过依赖<code>&quot;androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version&quot;</code>可以引入。他的主要作用是可以接管多个普通的LiveData，把他们统一起来然后进行管理。</p>
-<p>比如在一个Fragment中，我们有多个请求，我们就需要一个请求对应一个LiveData，然后在我们的Fragment中手动的对每个LiveData进行数据监测，这是比较麻烦的，我们可以通过MediatorLiveData来比较优雅的实现。</p>
-        
-          <a class="article-more-a" href="/2021/05/24/mediator_livedata/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-livedata" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/02/livedata/">Jetpack之LiveData使用和源码解析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/02/livedata/" class="archive-article-date">
-  	<time datetime="2021-05-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>LiveData的主要作用是可以通过观察者模式进行异步的通知，我们使用它的主要场景就是把网络数据，数据库数据等通过异步的方式通知UI。他的优点是可以避免内存泄漏，与生命周期关联起来，回调也是在主线程中。</p>
-        
-          <a class="article-more-a" href="/2021/05/02/livedata/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-savedstate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/01/savedstate/">Jetpack之SavedState的使用和源码解析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/01/savedstate/" class="archive-article-date">
-  	<time datetime="2021-04-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SavedState组件是用于保存和恢复数据，替换<code>onSaveInstanceState</code>方法。我们的数据会因为Activity&#x2F;Fragment被系统回收，屏幕旋转等导致丢失，除了常规的<code>onSaveInstanceState</code>中去保存以外，我们可以使用<code>savedstate</code>组件，他可以结合ViewModel，LiveData一起使用，比较的灵活简便。</p>
-        
-          <a class="article-more-a" href="/2021/05/01/savedstate/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-viewmodel" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/28/viewmodel/">Jetpack之ViewModel源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/28/viewmodel/" class="archive-article-date">
-  	<time datetime="2021-04-28T04:00:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ViewModel是Jetpack提供给我们使用的一个组件，他的作用是可以作为View和Model的中介，使得数据和页面分离，同时能避免内存泄漏的问题。</p>
-        
-          <a class="article-more-a" href="/2021/04/28/viewmodel/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">«上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">下一页»</a>
-    </nav>
   
 
+  
+
+  
+
+  
 
 
           </div>
@@ -923,8 +355,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
