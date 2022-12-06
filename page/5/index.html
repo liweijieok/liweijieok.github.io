@@ -140,6 +140,80 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-view_event" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/16/view_event/">View的事件传递深入理解</a>
+    </h1>
+  
+
+        
+        <a href="/2017/03/16/view_event/" class="archive-article-date">
+  	<time datetime="2017-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>View的集成关系树：<br><img src="http://ocxgpwj6l.bkt.clouddn.com/view%E6%A8%A1%E5%9E%8B.png"><br>ViewGroup继承View，用来包含显示View。View的子类是一个矩形用来显示图案，也称为Widget。</p>
+<h3 id="View的事件分发"><a href="#View的事件分发" class="headerlink" title="View的事件分发"></a>View的事件分发</h3><h4 id="View的事件基础分析"><a href="#View的事件基础分析" class="headerlink" title="View的事件基础分析"></a>View的事件基础分析</h4><h5 id="View的onClick事件分析"><a href="#View的onClick事件分析" class="headerlink" title="View的onClick事件分析"></a>View的onClick事件分析</h5><p>例子说明：我们给一个View设置两个事件，一个是OnClickListener，另外一个是onTouchListener。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onClick(View view) &#123;</span><br><span class="line">               Log.i(&quot;MainActivityLog&quot;, &quot;onclick&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">       findViewById(R.id.tv).setOnTouchListener(new View.OnTouchListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public boolean onTouch(View view, MotionEvent motionEvent) &#123;</span><br><span class="line">               Log.i(&quot;MainActivityLog&quot;, &quot;onTouch,action&#x3D;&quot;+motionEvent.getAction());</span><br><span class="line">               &#x2F;&#x2F; return false；</span><br><span class="line">               return true;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2017/03/16/view_event/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java_poet_learn" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
