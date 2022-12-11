@@ -140,6 +140,78 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-workmanager_bug" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/06/29/workmanager_bug/">WorkManager的坑</a>
+    </h1>
+  
+
+        
+        <a href="/2022/06/29/workmanager_bug/" class="archive-article-date">
+  	<time datetime="2022-06-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-06-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在目前Service组件越来越不被提倡使用的今天，我们对于他的替代品是使用WorkManager，但是在上线之后，发现了一个崩溃信息，如下：</p>
+        
+          <a class="article-more-a" href="/2022/06/29/workmanager_bug/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开发总结</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java_sort" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -776,78 +848,6 @@
         <p>LiveData的主要作用是可以通过观察者模式进行异步的通知，我们使用它的主要场景就是把网络数据，数据库数据等通过异步的方式通知UI。他的优点是可以避免内存泄漏，与生命周期关联起来，回调也是在主线程中。</p>
         
           <a class="article-more-a" href="/2021/05/02/livedata/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-savedstate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/01/savedstate/">Jetpack之SavedState的使用和源码解析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/01/savedstate/" class="archive-article-date">
-  	<time datetime="2021-04-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SavedState组件是用于保存和恢复数据，替换<code>onSaveInstanceState</code>方法。我们的数据会因为Activity&#x2F;Fragment被系统回收，屏幕旋转等导致丢失，除了常规的<code>onSaveInstanceState</code>中去保存以外，我们可以使用<code>savedstate</code>组件，他可以结合ViewModel，LiveData一起使用，比较的灵活简便。</p>
-        
-          <a class="article-more-a" href="/2021/05/01/savedstate/#more">more >></a>
         
       
 

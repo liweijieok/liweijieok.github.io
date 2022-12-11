@@ -285,6 +285,79 @@
 
 
   
+    <article id="post-ThreadLocal" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2022/12/11/ThreadLocal/">ThreadLocal分析</a>
+    </h1>
+  
+
+        
+        <a href="/2022/12/11/ThreadLocal/" class="archive-article-date">
+  	<time datetime="2022-12-11T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ThreadLocal的作用是可以用于保存当前线程的变量，当前线程内，可以任意获取，但每个线程往ThreadLocal里面读写数据是线程隔离，互不影响的。一个简单的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal&lt;String&gt; tl &#x3D; new ThreadLocal&lt;&gt;();</span><br><span class="line">      Thread t &#x3D; new Thread(() -&gt; &#123;</span><br><span class="line">          tl.set(&quot;123&quot;);</span><br><span class="line">          &#x2F;&#x2F; 输出123</span><br><span class="line">          System.out.println(&quot;t-&gt;&quot;+tl.get());</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      Thread t2 &#x3D; new Thread(() -&gt; &#123;</span><br><span class="line">      &#x2F;&#x2F; 输出456</span><br><span class="line">          tl.set(&quot;456&quot;);</span><br><span class="line">          System.out.println(&quot;t2-&gt;&quot;+tl.get());</span><br><span class="line">      &#125;);</span><br><span class="line">      t.start();</span><br><span class="line">      t2.start();</span><br><span class="line">      &#x2F;&#x2F; 输出null</span><br><span class="line">      System.out.println(&quot;main-&gt;&quot;+tl.get());</span><br></pre></td></tr></table></figure>
+        
+          <a class="article-more-a" href="/2022/12/11/ThreadLocal/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-databindg_skin" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -752,78 +825,6 @@
 <p>通过搜索我们知道了是oppo手机的电源管理导致的问题，可以看<a target="_blank" rel="noopener" href="https://www.cnblogs.com/awkflf11/p/6075244.html">Service在OPPO系列手机下无法启动</a>。我的日志目前都是发生在WorkManager的<code>SystemAlarmScheduler</code>的<code>cancel</code>方法，我们的目的就是给这个方法增加一个<code>try/catch</code>来避免后台崩溃。</p>
         
           <a class="article-more-a" href="/2022/07/05/workmanager_bug2/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开发总结</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-workmanager_bug" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/06/29/workmanager_bug/">WorkManager的坑</a>
-    </h1>
-  
-
-        
-        <a href="/2022/06/29/workmanager_bug/" class="archive-article-date">
-  	<time datetime="2022-06-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-06-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在目前Service组件越来越不被提倡使用的今天，我们对于他的替代品是使用WorkManager，但是在上线之后，发现了一个崩溃信息，如下：</p>
-        
-          <a class="article-more-a" href="/2022/06/29/workmanager_bug/#more">more >></a>
         
       
 
