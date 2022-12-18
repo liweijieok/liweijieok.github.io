@@ -140,6 +140,85 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-linkedlist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/04/linkedlist/">LinkedList源码分析</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/04/linkedlist/" class="archive-article-date">
+  	<time datetime="2020-06-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文基于java8的代码，是分析他的数据结构，插入，查询等功能。他既实现了List，也实现了Deque，所以它既可以当做动态数组，也可以像队列那样子去使用。</p>
+<h2 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h2><p>他的成本变量有以下几个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 长度，也就是元素个数</span><br><span class="line">transient int size &#x3D; 0;</span><br><span class="line">&#x2F;&#x2F; 首节点</span><br><span class="line">transient Node&lt;E&gt; first;</span><br><span class="line">&#x2F;&#x2F;末节点</span><br><span class="line">transient Node&lt;E&gt; last;</span><br></pre></td></tr></table></figure>
+
+<p>Node类的声明如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private static class Node&lt;E&gt; &#123;</span><br><span class="line">        E item;&#x2F;&#x2F;自身的值</span><br><span class="line">        Node&lt;E&gt; next;&#x2F;&#x2F;下一个节点</span><br><span class="line">        Node&lt;E&gt; prev;&#x2F;&#x2F;上一个节点</span><br><span class="line">        Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) &#123;</span><br><span class="line">            this.item &#x3D; element;</span><br><span class="line">            this.next &#x3D; next;</span><br><span class="line">            this.prev &#x3D; prev;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>从数据结构上我们就可以看得出LinkedList他的数据结构是以链表的形式存在，有点是插入，删除效率高，确定是无法快速通过下标进行直接查询。</p>
+        
+          <a class="article-more-a" href="/2020/06/04/linkedlist/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-arraylist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -825,86 +904,9 @@
 
 
   
-    <article id="post-promise_learn" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/21/promise_learn/">Promise学习和使用</a>
-    </h1>
-  
-
-        
-        <a href="/2018/03/21/promise_learn/" class="archive-article-date">
-  	<time datetime="2018-03-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-21</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="Promise学习和使用"><a href="#Promise学习和使用" class="headerlink" title="Promise学习和使用"></a>Promise学习和使用</h2><p>Promise是JS从用来处理异步的框架。他是一个对象，用来传递异步操作的消息，他的结果只有在未来才知道(成功或者失败)，在ES6中已经内置了 Promise对象。他的好处有：</p>
-<ul>
-<li>使用Promise可以避免回调地狱，可以链式调用</li>
-<li>在JS事件队列的当前运行完成之前，回调函数永远不会被调用。</li>
-<li>通过then形式添加的回调函数，甚至都在异步操作完成之后被添加的函数，都会被调用。</li>
-</ul>
-        
-          <a class="article-more-a" href="/2018/03/21/promise_learn/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">«上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">下一页»</a>
+      <a class="extend prev" rel="prev" href="/page/3/">«上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">下一页»</a>
     </nav>
   
 

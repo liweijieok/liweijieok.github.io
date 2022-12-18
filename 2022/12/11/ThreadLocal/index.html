@@ -11,12 +11,12 @@
   <meta name="description" content="ThreadLocal的作用是可以用于保存当前线程的变量，当前线程内，可以任意获取，但每个线程往ThreadLocal里面读写数据是线程隔离，互不影响的。一个简单的例子： 12345678910111213141516ThreadLocal&lt;String&gt; tl &#x3D; new ThreadLocal&lt;&gt;();      Thread t &#x3D; new Thr">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ThreadLocal分析">
-<meta property="og:url" content="http://example.com/2022/12/11/ThreadLocal/index.html">
+<meta property="og:url" content="http://example.com/2022/12/11/threadLocal/index.html">
 <meta property="og:site_name" content="liweijie">
 <meta property="og:description" content="ThreadLocal的作用是可以用于保存当前线程的变量，当前线程内，可以任意获取，但每个线程往ThreadLocal里面读写数据是线程隔离，互不影响的。一个简单的例子： 12345678910111213141516ThreadLocal&lt;String&gt; tl &#x3D; new ThreadLocal&lt;&gt;();      Thread t &#x3D; new Thr">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-12-11T14:48:57.000Z">
-<meta property="article:modified_time" content="2022-12-11T14:49:26.143Z">
+<meta property="article:modified_time" content="2022-12-18T16:19:15.446Z">
 <meta property="article:author" content="liweijie">
 <meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
@@ -143,7 +143,7 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-ThreadLocal" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-threadLocal" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -155,7 +155,7 @@
   
 
         
-        <a href="/2022/12/11/ThreadLocal/" class="archive-article-date">
+        <a href="/2022/12/11/threadLocal/" class="archive-article-date">
   	<time datetime="2022-12-11T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
 </a>
         
@@ -169,60 +169,31 @@
 <span id="more"></span>
 <h2 id="初步解析"><a href="#初步解析" class="headerlink" title="初步解析"></a>初步解析</h2><p>我们关注下他的<code>public</code>方法，</p>
 <ol>
-<li><code>get()</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">       &#x2F;&#x2F; 获取当前线程对象</span><br><span class="line">       Thread t &#x3D; Thread.currentThread();</span><br><span class="line">       &#x2F;&#x2F;拿到当前线程的ThreadLocalMap对象，关于ThreadLocalMap是啥后续再说，它是一个键值对，key是ThreadLocal对象，value是对应我们需要存储在ThreadLocal中的值</span><br><span class="line">       ThreadLocalMap map &#x3D; getMap(t);</span><br><span class="line">       if (map !&#x3D; null) &#123;</span><br><span class="line">           &#x2F;&#x2F; 通过传入当前ThreadLocal对象作为key，读取到ThreadLocalMap中存储的value</span><br><span class="line">           ThreadLocalMap.Entry e &#x3D; map.getEntry(this);</span><br><span class="line">           if (e !&#x3D; null) &#123;</span><br><span class="line">               @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">               T result &#x3D; (T)e.value;</span><br><span class="line">               &#x2F;&#x2F; 存在就返回</span><br><span class="line">               return result;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       &#x2F;&#x2F; 不存在或者是map为空，就返回我们设置的默认值</span><br><span class="line">       &#x2F;&#x2F; 假如我们使用withInitial(Supplier&lt;? extends S&gt; supplier)初始化的话就可以传入默认值</span><br><span class="line">       return setInitialValue();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></li>
-<li><code>set(T value)</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public void set(T value) &#123;</span><br><span class="line">        &#x2F;&#x2F; 拿到当前线程</span><br><span class="line">        Thread t &#x3D; Thread.currentThread();</span><br><span class="line">        &#x2F;&#x2F; 拿到当前线程的ThreadLocalMap对象</span><br><span class="line">        ThreadLocalMap map &#x3D; getMap(t);</span><br><span class="line">        if (map !&#x3D; null)</span><br><span class="line">            &#x2F;&#x2F; 存在就存入</span><br><span class="line">            map.set(this, value);</span><br><span class="line">        else</span><br><span class="line">            &#x2F;&#x2F; 不存在就创建map，并且存入</span><br><span class="line">            createMap(t, value);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 创建ThreadLocalMap对象，并设置给当前线程</span><br><span class="line">    void createMap(Thread t, T firstValue) &#123;</span><br><span class="line">        t.threadLocals &#x3D; new ThreadLocalMap(this, firstValue);</span><br><span class="line">    &#125;</span><br><span class="line">&#96;&#96;&#96;    </span><br><span class="line">3. &#96;remove()&#96;</span><br></pre></td></tr></table></figure>
-public void remove() {<br>  ThreadLocalMap m &#x3D; getMap(Thread.currentThread());<br>  if (m !&#x3D; null)<br>      m.remove(this);<br>  }<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">通过上面的代码我们就可以基本了解并使用ThreadLocal了，他就是用于存储不同线程的自身数据，而且线程之间互不影响，一个&#96;ThreadLocal&#96;对象能存储一种数据，每个线程可以有多个&#96;ThreadLocal&#96;对象。然后我们就需要深入的了解一下关于他是如何存储的了，即&#96;ThreadLocalMap&#96;类的具体源码分析。</span><br><span class="line"></span><br><span class="line">## ThreadLocalMap</span><br><span class="line"></span><br><span class="line">首先，我们的&#96;Thread&#96;类中，有一个变量，即&#96;threadLocals&#96;，它是&#96;ThreadLocalMap&#96;类型的，我们在调用&#96;ThreadLocal&#96;的&#96;get&#x2F;set&#96;的时候，就是读取&#x2F;写入&#96;threadLocals&#96;中。它是&#96;ThreadLocal&#96;的内部静态类，是一个键值对类型，它的&#96;Entry&#96;类定义是：</span><br></pre></td></tr></table></figure>
-static class Entry extends WeakReference&lt;ThreadLocal<?>> {
-     /** The value associated with this ThreadLocal. */
-     Object value;
-
-     Entry(ThreadLocal<?> k, Object v) {<br>         super(k);<br>         value &#x3D; v;<br>     }<br> }</li>
+<li><code>get()</code></li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">可以看到key是&#96;ThreadLocal&#96;，value是我们的存储的参数类型，但是需要注意他是继承自&#96;WeakReference&#96;的，即我们存储的&#96;ThreadLocalMap&#96;中的数据是可能会被回收掉的，这个&#96;WeakReference&#96;中的&#96;key&#96;就是我们的&#96;ThreadLocal&#96;。</span><br><span class="line"></span><br><span class="line">属性：</span><br></pre></td></tr></table></figure>
-<pre><code>    private static final int INITIAL_CAPACITY = 16; // 默认map大小
-    private Entry[] table; //使用数组存储
-    private int size = 0; //当前size
-    private int threshold; //扩容因子
-</code></pre>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">构造方法：</span><br></pre></td></tr></table></figure>
-<p>&#x2F;&#x2F; ThreadLocal中默认计算存储在ThreadLocalMap中的index的方法<br>    &#x2F;&#x2F; 获取index<br>    private final int threadLocalHashCode &#x3D; nextHashCode();<br>    &#x2F;&#x2F;线程安全的static，所有的线程的ThreadLocal都是使用该nextHashCode来实现index的获取<br>    private static AtomicInteger nextHashCode &#x3D;<br>        new AtomicInteger();<br>    &#x2F;&#x2F; 0x61c88647 考虑了黄金分割点<br>    private static final int HASH_INCREMENT &#x3D; 0x61c88647;<br>    &#x2F;&#x2F; 以HASH_INCREMENT开始自增<br>    private static int nextHashCode() {<br>        return nextHashCode.getAndAdd(HASH_INCREMENT);<br>    }</p>
-<p>&#x2F;&#x2F; 传入一个ThreadLocal与需要存储的value，初始化table数组，大小为INITIAL_CAPACITY<br>ThreadLocalMap(ThreadLocal&lt;?&gt; firstKey, Object firstValue) {<br>            table &#x3D; new Entry[INITIAL_CAPACITY];<br>            &#x2F;&#x2F; 获取当前元素存储的index，在0-INITIAL_CAPACITY之间<br>            int i &#x3D; firstKey.threadLocalHashCode &amp; (INITIAL_CAPACITY - 1);<br>            table[i] &#x3D; new Entry(firstKey, firstValue);<br>            size &#x3D; 1;<br>            &#x2F;&#x2F; 设置增长因子<br>            setThreshold(INITIAL_CAPACITY);<br>        }</p>
-<pre><code>    // 传入一个Map作为初始值，假如我们需要重写ThreadLocal可能会用到这个方法
-    // 而且需要复写childValue方法
-    private ThreadLocalMap(ThreadLocalMap parentMap) &#123;
-        Entry[] parentTable = parentMap.table;
-        int len = parentTable.length;
-        setThreshold(len);
-        table = new Entry[len];
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public T get() &#123;</span><br><span class="line">       &#x2F;&#x2F; 获取当前线程对象</span><br><span class="line">       Thread t &#x3D; Thread.currentThread();</span><br><span class="line">       &#x2F;&#x2F;拿到当前线程的ThreadLocalMap对象，关于ThreadLocalMap是啥后续再说，它是一个键值对，key是ThreadLocal对象，value是对应我们需要存储在ThreadLocal中的值</span><br><span class="line">       ThreadLocalMap map &#x3D; getMap(t);</span><br><span class="line">       if (map !&#x3D; null) &#123;</span><br><span class="line">           &#x2F;&#x2F; 通过传入当前ThreadLocal对象作为key，读取到ThreadLocalMap中存储的value</span><br><span class="line">           ThreadLocalMap.Entry e &#x3D; map.getEntry(this);</span><br><span class="line">           if (e !&#x3D; null) &#123;</span><br><span class="line">               @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">               T result &#x3D; (T)e.value;</span><br><span class="line">               &#x2F;&#x2F; 存在就返回</span><br><span class="line">               return result;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       &#x2F;&#x2F; 不存在或者是map为空，就返回我们设置的默认值</span><br><span class="line">       &#x2F;&#x2F; 假如我们使用withInitial(Supplier&lt;? extends S&gt; supplier)初始化的话就可以传入默认值</span><br><span class="line">       return setInitialValue();</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 
-        for (int j = 0; j &lt; len; j++) &#123;
-            Entry e = parentTable[j];
-            if (e != null) &#123;
-                @SuppressWarnings(&quot;unchecked&quot;)
-                ThreadLocal&lt;Object&gt; key = (ThreadLocal&lt;Object&gt;) e.get();
-                if (key != null) &#123;
-                    // 获取value
-                    Object value = key.childValue(e.value);
-                    Entry c = new Entry(key, value);
-                    // 获取index
-                    int h = key.threadLocalHashCode &amp; (len - 1);
-                    //寻找可存入index的位置
-                    while (table[h] != null)
-                        h = nextIndex(h, len);
-                    table[h] = c;
-                    size++;
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-    
-    private static int nextIndex(int i, int len) &#123;
-        return ((i + 1 &lt; len) ? i + 1 : 0);
-    &#125;
-</code></pre>
-<pre><code>
-其他的一些方法与Map也是类似的，比如插入，删除，扩容等，这里就不再赘述了。
-</code></pre>
+<ol start="2">
+<li><code>set(T value)</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public void set(T value) &#123;</span><br><span class="line">        &#x2F;&#x2F; 拿到当前线程</span><br><span class="line">        Thread t &#x3D; Thread.currentThread();</span><br><span class="line">        &#x2F;&#x2F; 拿到当前线程的ThreadLocalMap对象</span><br><span class="line">        ThreadLocalMap map &#x3D; getMap(t);</span><br><span class="line">        if (map !&#x3D; null)</span><br><span class="line">            &#x2F;&#x2F; 存在就存入</span><br><span class="line">            map.set(this, value);</span><br><span class="line">        else</span><br><span class="line">            &#x2F;&#x2F; 不存在就创建map，并且存入</span><br><span class="line">            createMap(t, value);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; 创建ThreadLocalMap对象，并设置给当前线程</span><br><span class="line">    void createMap(Thread t, T firstValue) &#123;</span><br><span class="line">        t.threadLocals &#x3D; new ThreadLocalMap(this, firstValue);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><code>remove()</code></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void remove() &#123;</span><br><span class="line">         ThreadLocalMap m &#x3D; getMap(Thread.currentThread());</span><br><span class="line">         if (m !&#x3D; null)</span><br><span class="line">             m.remove(this);</span><br><span class="line">     &#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面的代码我们就可以基本了解并使用ThreadLocal了，他就是用于存储不同线程的自身数据，而且线程之间互不影响，一个<code>ThreadLocal</code>对象能存储一种数据，每个线程可以有多个<code>ThreadLocal</code>对象。然后我们就需要深入的了解一下关于他是如何存储的了，即<code>ThreadLocalMap</code>类的具体源码分析。</p>
+<h2 id="ThreadLocalMap"><a href="#ThreadLocalMap" class="headerlink" title="ThreadLocalMap"></a>ThreadLocalMap</h2><p>首先，我们的<code>Thread</code>类中，有一个变量，即<code>threadLocals</code>，它是<code>ThreadLocalMap</code>类型的，我们在调用<code>ThreadLocal</code>的<code>get/set</code>的时候，就是读取&#x2F;写入<code>threadLocals</code>中。它是<code>ThreadLocal</code>的内部静态类，是一个键值对类型，它的<code>Entry</code>类定义是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static class Entry extends WeakReference&lt;ThreadLocal&lt;?&gt;&gt; &#123;</span><br><span class="line">            &#x2F;** The value associated with this ThreadLocal. *&#x2F;</span><br><span class="line">            Object value;</span><br><span class="line"></span><br><span class="line">            Entry(ThreadLocal&lt;?&gt; k, Object v) &#123;</span><br><span class="line">                super(k);</span><br><span class="line">                value &#x3D; v;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<p>可以看到key是<code>ThreadLocal</code>，value是我们的存储的参数类型，但是需要注意他是继承自<code>WeakReference</code>的，即我们存储的<code>ThreadLocalMap</code>中的数据是可能会被回收掉的，这个<code>WeakReference</code>中的<code>key</code>就是我们的<code>ThreadLocal</code>。</p>
+<p>属性：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">private static final int INITIAL_CAPACITY &#x3D; 16; &#x2F;&#x2F; 默认map大小</span><br><span class="line">private Entry[] table; &#x2F;&#x2F;使用数组存储</span><br><span class="line">private int size &#x3D; 0; &#x2F;&#x2F;当前size</span><br><span class="line">private int threshold; &#x2F;&#x2F;扩容因子</span><br></pre></td></tr></table></figure>
+
+<p>构造方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; ThreadLocal中默认计算存储在ThreadLocalMap中的index的方法</span><br><span class="line">    &#x2F;&#x2F; 获取index</span><br><span class="line">    private final int threadLocalHashCode &#x3D; nextHashCode();</span><br><span class="line">    &#x2F;&#x2F;线程安全的static，所有的线程的ThreadLocal都是使用该nextHashCode来实现index的获取</span><br><span class="line">    private static AtomicInteger nextHashCode &#x3D;</span><br><span class="line">        new AtomicInteger();</span><br><span class="line">    &#x2F;&#x2F; 0x61c88647 考虑了黄金分割点</span><br><span class="line">    private static final int HASH_INCREMENT &#x3D; 0x61c88647;</span><br><span class="line">    &#x2F;&#x2F; 以HASH_INCREMENT开始自增</span><br><span class="line">    private static int nextHashCode() &#123;</span><br><span class="line">        return nextHashCode.getAndAdd(HASH_INCREMENT);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 传入一个ThreadLocal与需要存储的value，初始化table数组，大小为INITIAL_CAPACITY</span><br><span class="line">ThreadLocalMap(ThreadLocal&lt;?&gt; firstKey, Object firstValue) &#123;</span><br><span class="line">            table &#x3D; new Entry[INITIAL_CAPACITY];</span><br><span class="line">            &#x2F;&#x2F; 获取当前元素存储的index，在0-INITIAL_CAPACITY之间</span><br><span class="line">            int i &#x3D; firstKey.threadLocalHashCode &amp; (INITIAL_CAPACITY - 1);</span><br><span class="line">            table[i] &#x3D; new Entry(firstKey, firstValue);</span><br><span class="line">            size &#x3D; 1;</span><br><span class="line">            &#x2F;&#x2F; 设置增长因子</span><br><span class="line">            setThreshold(INITIAL_CAPACITY);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 传入一个Map作为初始值，假如我们需要重写ThreadLocal可能会用到这个方法</span><br><span class="line">        &#x2F;&#x2F; 而且需要复写childValue方法</span><br><span class="line">        private ThreadLocalMap(ThreadLocalMap parentMap) &#123;</span><br><span class="line">            Entry[] parentTable &#x3D; parentMap.table;</span><br><span class="line">            int len &#x3D; parentTable.length;</span><br><span class="line">            setThreshold(len);</span><br><span class="line">            table &#x3D; new Entry[len];</span><br><span class="line"></span><br><span class="line">            for (int j &#x3D; 0; j &lt; len; j++) &#123;</span><br><span class="line">                Entry e &#x3D; parentTable[j];</span><br><span class="line">                if (e !&#x3D; null) &#123;</span><br><span class="line">                    @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">                    ThreadLocal&lt;Object&gt; key &#x3D; (ThreadLocal&lt;Object&gt;) e.get();</span><br><span class="line">                    if (key !&#x3D; null) &#123;</span><br><span class="line">                        &#x2F;&#x2F; 获取value</span><br><span class="line">                        Object value &#x3D; key.childValue(e.value);</span><br><span class="line">                        Entry c &#x3D; new Entry(key, value);</span><br><span class="line">                        &#x2F;&#x2F; 获取index</span><br><span class="line">                        int h &#x3D; key.threadLocalHashCode &amp; (len - 1);</span><br><span class="line">                        &#x2F;&#x2F;寻找可存入index的位置</span><br><span class="line">                        while (table[h] !&#x3D; null)</span><br><span class="line">                            h &#x3D; nextIndex(h, len);</span><br><span class="line">                        table[h] &#x3D; c;</span><br><span class="line">                        size++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        private static int nextIndex(int i, int len) &#123;</span><br><span class="line">            return ((i + 1 &lt; len) ? i + 1 : 0);</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<p>其他的一些方法与Map也是类似的，比如插入，删除，扩容等，这里就不再赘述了。</p>
 
       
 
@@ -255,6 +226,15 @@ static class Entry extends WeakReference&lt;ThreadLocal<?>> {
   
 <nav id="article-nav">
   
+    <a href="/2022/12/19/handler/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Handler原理分析与面试问题
+        
+      </div>
+    </a>
+  
   
     <a href="/2022/12/06/databindg_skin/" id="article-nav-older" class="article-nav-link-wrap">
       <div class="article-nav-title">基于MVVM的换肤方案</div>
@@ -284,7 +264,7 @@ static class Entry extends WeakReference&lt;ThreadLocal<?>> {
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">初步解析</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E8%A7%A3%E6%9E%90"><span class="toc-number">1.</span> <span class="toc-text">初步解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ThreadLocalMap"><span class="toc-number">2.</span> <span class="toc-text">ThreadLocalMap</span></a></li></ol>
                     </div>
                 </span>
             </div>
