@@ -285,6 +285,86 @@
 
 
   
+    <article id="post-android_asm" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/01/android_asm/">学习Android的插桩计划【置顶】</a>
+    </h1>
+  
+
+        
+        <a href="/2021/03/01/android_asm/" class="archive-article-date">
+  	<time datetime="2021-02-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id=""><a href="#" class="headerlink" title=""></a></h1><p>无论是我们fix一些第三方依赖库，还是去做一些比如热修复，插件化等的时候，都会涉及到代码插桩</p>
+<p>包括的知识点：</p>
+<ol>
+<li>Java字节码的组成（基本了解即可）</li>
+<li>ASM如何操作字节码(流程和关键方法)</li>
+<li>Android的打包过程，包括资源打包，代码打包，apk签名等流程，需要大体上了解清楚</li>
+<li>Gradle的构件流程和知识，包括新版的gradle的api</li>
+<li>Gradle+ASM实现一个简单的插桩，比如耗时方法统计，或者是页面驻留统计</li>
+<li>学习使用apktool，dex2jar以及JD-GUI，它们是用来怼插桩效果进行验证的</li>
+<li>学习Github上优秀的ASM插桩框架。比如一些热修复框架，插件化框架等，比如AutoRegister等</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-handler" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -804,78 +884,6 @@
 
 
   
-    <article id="post-build_info" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/10/06/build_info/">Build的常用相关信息</a>
-    </h1>
-  
-
-        
-        <a href="/2022/10/06/build_info/" class="archive-article-date">
-  	<time datetime="2022-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-10-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Build的常用相关信息<br>这里是指<code>android.os</code>包下的Build类。</p>
-        
-          <a class="article-more-a" href="/2022/10/06/build_info/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页»</a>
@@ -891,7 +899,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2022 liweijie
+    		&copy; 2023 liweijie
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a>
