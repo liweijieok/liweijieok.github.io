@@ -365,6 +365,223 @@
 
 
   
+    <article id="post-dev_rule" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/29/dev_rule/">团队Git使用&amp;统一代码格式</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/29/dev_rule/" class="archive-article-date">
+  	<time datetime="2023-03-29T14:48:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>主要是分享一下自己这些年开发下来，觉得比较好的一些团队开发经验，包括git&amp;代码规范。</p>
+        
+          <a class="article-more-a" href="/2023/03/29/dev_rule/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开发规范</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-android_gradle_so" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/29/android_gradle_so/">Android获取so来自那个依赖</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/29/android_gradle_so/" class="archive-article-date">
+  	<time datetime="2023-03-29T14:48:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有时候开发过程中，需要知道那个so来自那个依赖，可以通过在app模块的gradle中插入下面代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">tasks.whenTaskAdded&#123; task-&gt;</span><br><span class="line">    &#x2F;&#x2F; 换成自己对应的Flavors命令</span><br><span class="line">    if(task.name&#x3D;&#x3D;&quot;mergeXxxNativeLibs&quot;)&#123;</span><br><span class="line">        task.doFirst&#123;</span><br><span class="line">            it.inputs.files.each&#123;file-&gt;</span><br><span class="line">                printSoDir(file)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">def printSoDir(File file) &#123;</span><br><span class="line">    if (file !&#x3D; null) &#123;</span><br><span class="line">        if (file.isDirectory()) &#123;</span><br><span class="line">            file.listFiles().each &#123;</span><br><span class="line">                printSoDir(it)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else if (file.absolutePath.endsWith(&quot;.so&quot;)) &#123;</span><br><span class="line">            println(&quot;so file: $file.absolutePath&quot;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其中的taskName是具体的自己项目对应run的时候对应的task，一般会与变种&amp;BuildType有关。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-im_encrypt" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/03/29/im_encrypt/">IM即时通讯数据加密方式</a>
+    </h1>
+  
+
+        
+        <a href="/2023/03/29/im_encrypt/" class="archive-article-date">
+  	<time datetime="2023-03-29T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在IM即时通许开发过程中，我们会直接使用TCP&#x2F;UDP去做一个开发，我之前接触的一个是使用TCP的方式，在这个过程中，为了避免被人拦截了之后对数据进行查找与篡改，需要进行加密。</p>
+        
+          <a class="article-more-a" href="/2023/03/29/im_encrypt/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IM</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-android_naming_rules_res" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -661,230 +878,6 @@
 
 
   
-    <article id="post-databindg_skin" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/12/06/databindg_skin/">基于MVVM的换肤方案</a>
-    </h1>
-  
-
-        
-        <a href="/2022/12/06/databindg_skin/" class="archive-article-date">
-  	<time datetime="2022-12-06T12:18:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-06</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Github地址：<a target="_blank" rel="noopener" href="https://github.com/liweijieok/Skin">SKin</a>，本文的思路来自于<a target="_blank" rel="noopener" href="https://juejin.cn/post/7061453421231996958">Databinding+LiveData轻松实现无重启换肤</a></p>
-        
-          <a class="article-more-a" href="/2022/12/06/databindg_skin/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-kotlin_lambda" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/20/kotlin_lambda/">Kotlin的Lambda与函数内联</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/20/kotlin_lambda/" class="archive-article-date">
-  	<time datetime="2022-11-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在kotlin种，函数是一等公民，我们就需要对kotlin的函数进行一些较深入的了解，主要是下面四块，其他一些常见的，比如顶层函数就不说了<br>主要是四块</p>
-<ol>
-<li>函数引用与匿名函数</li>
-<li>Lambda表达式</li>
-<li>函数内联</li>
-<li>函数接受者</li>
-</ol>
-        
-          <a class="article-more-a" href="/2022/11/20/kotlin_lambda/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Kotlin</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-kotlin_exception" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/11/09/kotlin_exception/">Kotlin的异常处理</a>
-    </h1>
-  
-
-        
-        <a href="/2022/11/09/kotlin_exception/" class="archive-article-date">
-  	<time datetime="2022-11-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-11-09</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在kotlin中，是可以正常的与Java一样使用<code>try/catch/finally</code>这一套的，也可以使用<code>throw</code>来抛出异常，但是没有<code>throws</code>抛出方法异常，使用注解<code>@Throws</code>代替(抛出KClass数组)。</p>
-<p>但是kotlin本身是不会有与Java一样的非运行时异常检测的，即类似于java中的<code>IOException</code>，他说需要强制捕获的，但是在kotlin中他说不会报异常的，需要自己手动添加异常捕获。</p>
-<p>在日常编码中，我们可以像java一样的使用这套异常处理，但是我们也可以使用更优雅的方式，即使用他提供的<code>runCatch</code>来包裹异常代码块。</p>
-        
-          <a class="article-more-a" href="/2022/11/09/kotlin_exception/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Kotlin</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">下一页»</a>
@@ -1025,10 +1018,6 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Git</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">MiniProgress</a>
               </li>
              
@@ -1046,6 +1035,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Kotlin</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">开发规范</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">IM</a>
               </li>
             
             <div class="clearfix"></div>
