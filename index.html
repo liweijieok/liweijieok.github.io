@@ -365,6 +365,162 @@
 
 
   
+    <article id="post-arouter" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/04/25/arouter/">ARouter源码阅读-基础篇</a>
+    </h1>
+  
+
+        
+        <a href="/2023/04/25/arouter/" class="archive-article-date">
+  	<time datetime="2023-04-25T15:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文主要是阅读源码，不会说组件化带来的好处以及为何需要组件化之类的问题。主要是了解ARouter的最核心的逻辑，包括页面跳转，服务注册等最基础的功能。关于如何使用ARouter本文也不会具体的讲解，github地址:<a target="_blank" rel="noopener" href="https://github.com/alibaba/ARouter">ARouter</a>，本文是基于最新版本。</p>
+<p>阅读本文需要有一定的ARouter使用经历，同时对于组件化也有一定的认识。</p>
+<p>题外话：目前ARouter已经算是不再维护的状态了，所以大家可以只是去学习一下ARouter的组件化思维与实现方式即可，对于在项目中使用是不再推荐了，推荐可以使用<a target="_blank" rel="noopener" href="https://github.com/HuolalaTech/hll-wp-therouter-android"><code>TheRouter</code></a></p>
+        
+          <a class="article-more-a" href="/2023/04/25/arouter/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-im_tech" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2023/04/25/im_tech/">IM即时通讯一般涉及的技术点</a>
+    </h1>
+  
+
+        
+        <a href="/2023/04/25/im_tech/" class="archive-article-date">
+  	<time datetime="2023-04-25T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li>TCP&#x2F;UDP 通讯，一般是使用这两种方式，还需要有消息的重发机制，心跳机制，TCP的重连机制等</li>
+<li>数据加密，即会话的内容的传输保密，可以使用RSA+AES</li>
+<li>消息存储，sqlite数据库 or 加密数据库</li>
+<li>UI，聊天页面的UI基本都比较复杂，RV的使用，图文混排，表情，超链识别，应用号等非常多类型的消息和事件</li>
+<li>保活机制，IM一般都需要保活，</li>
+<li>跨进程，可能会需要跨进程来实现</li>
+<li>兼容，新消息旧版本的展示，数据库兼容与扩充等</li>
+<li>回执机制，1是消息的发送成功与否，2是已读维度的回执，3是回话的未读数计算机制，回话的更新机制，消息撤回机制等等。</li>
+</ol>
+<p>IM的开发还会涉及到很多的西街店：比如at人机制，比如群组头像，比如点击会话列表之后的自动滚动机制等等。</p>
+<p>使用了上面的技术点，才能较好的完成一个基本具备即时聊天功能的App，更复杂的，比如飞书，企业微信，钉钉等，会在基本都IM功能上加上非常功能。</p>
+<p>在IM即时通许开发过程中，我们会直接使用TCP&#x2F;UDP去做一个开发，我之前接触的一个是使用TCP的方式，在这个过程中，为了避免被人拦截了之后对数据进行查找与篡改，需要进行加密。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IM</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-dev_rule" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -692,157 +848,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-handler" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/12/19/handler/">Handler原理分析与面试问题</a>
-    </h1>
-  
-
-        
-        <a href="/2022/12/19/handler/" class="archive-article-date">
-  	<time datetime="2022-12-19T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-19</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="基本认识"><a href="#基本认识" class="headerlink" title="基本认识"></a>基本认识</h2><p>认识4个类：</p>
-<ol>
-<li>Message，负责描述消息，包括各种需要传递的数据，区分消息的what等</li>
-<li>Handler，负责发送消息和处理消息</li>
-<li>MessageQuene，是一个消息队列，存储Message的顺序，</li>
-<li>Looper，负责轮询消息</li>
-</ol>
-        
-          <a class="article-more-a" href="/2022/12/19/handler/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-thread_local" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2022/12/11/thread_local/">ThreadLocal分析</a>
-    </h1>
-  
-
-        
-        <a href="/2022/12/11/thread_local/" class="archive-article-date">
-  	<time datetime="2022-12-11T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-11</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ThreadLocal的作用是可以用于保存当前线程的变量，当前线程内，可以任意获取，但每个线程往ThreadLocal里面读写数据是线程隔离，互不影响的。一个简单的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ThreadLocal&lt;String&gt; tl &#x3D; new ThreadLocal&lt;&gt;();</span><br><span class="line">      Thread t &#x3D; new Thread(() -&gt; &#123;</span><br><span class="line">          tl.set(&quot;123&quot;);</span><br><span class="line">          &#x2F;&#x2F; 输出123</span><br><span class="line">          System.out.println(&quot;t-&gt;&quot;+tl.get());</span><br><span class="line">      &#125;);</span><br><span class="line"></span><br><span class="line">      Thread t2 &#x3D; new Thread(() -&gt; &#123;</span><br><span class="line">      &#x2F;&#x2F; 输出456</span><br><span class="line">          tl.set(&quot;456&quot;);</span><br><span class="line">          System.out.println(&quot;t2-&gt;&quot;+tl.get());</span><br><span class="line">      &#125;);</span><br><span class="line">      t.start();</span><br><span class="line">      t2.start();</span><br><span class="line">      &#x2F;&#x2F; 输出null</span><br><span class="line">      System.out.println(&quot;main-&gt;&quot;+tl.get());</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/2022/12/11/thread_local/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>

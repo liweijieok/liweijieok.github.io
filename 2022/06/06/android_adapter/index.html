@@ -16,7 +16,7 @@
 <meta property="og:description" content="Android开发过程遇到的一些坑(持续更新) 主要是开发过程中遇到的手机适配和系统适配的问题，以及一些开发建议的注意点">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-06-05T16:00:00.000Z">
-<meta property="article:modified_time" content="2022-06-29T13:34:20.052Z">
+<meta property="article:modified_time" content="2023-04-25T15:10:03.898Z">
 <meta property="article:author" content="liweijie">
 <meta property="article:tag" content="开发总结">
 <meta name="twitter:card" content="summary">
@@ -168,13 +168,14 @@
 <span id="more"></span>
 
 <h2 id="厂商手机适配的问题"><a href="#厂商手机适配的问题" class="headerlink" title="厂商手机适配的问题"></a>厂商手机适配的问题</h2><ol>
-<li>某些华为注册的receiver不能超过限制的问题，会报出<code>register too many Broadcast Receivers（不能超出500个）</code>错误。原则上app并不会被去限制注册receiver的数量，只是华为有去做这样一个限制，当然一般的app是不会注册这么多(包括动态注册的数量)，但是我们引入的一些第三方库可能内部就会有注册这么多，比如<code>Glide</code>，这时候可以参考<a target="_blank" rel="noopener" href="https://github.com/llew2011/HuaWeiVerifier">HuaWeiVerifier
+<li>某些华为注册的receiver不能超过限制的问题，会报出<code>register too many Broadcast Receivers</code>错误。原则上app并会被去限制注册receiver的数量（500），只是华为有去做一个限制，当然一般的app是不会注册这么多(包括动态注册)，但是我们引入的一些第三方库可能内部就会有注册这么多，比如<code>Glide</code>，这时候可以参考<a target="_blank" rel="noopener" href="https://github.com/llew2011/HuaWeiVerifier">HuaWeiVerifier
 </a>，<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b95ba9e07208">绕过华为register too many Broadcast Receivers限制</a></li>
-<li>vivo某些机型的TextView有一层自动的灰色蒙层，类似点击的效果，解决方案：<a target="_blank" rel="noopener" href="https://blog.csdn.net/snail201211/article/details/84990892">关于Android原生View默认焦点高亮的问题</a></li>
-<li>锤子手机的权限问题，开启权限，然后去设置关闭返回的时候再去check权限，返回的结果为【已开启】，暂无解决方案</li>
+<li>vivo&#x2F;oppo某些机型的TextView有一层自动的灰色蒙层，类似点击的效果，解决方案：<a target="_blank" rel="noopener" href="https://blog.csdn.net/snail201211/article/details/84990892">关于Android原生View默认焦点高亮的问题</a></li>
+<li>锤子手机的权限问题，开启权限，然后去设置关闭返回的时候再去check权限，返回的结果为【已开启】</li>
 <li>vivo y66 悬浮窗的权限是否开启判断，无法使用系统api，解决方式<a target="_blank" rel="noopener" href="https://github.com/zhaozepeng/FloatWindowPermission/issues/41">FloatWindowPermission</a></li>
-<li>OPPO R11s(27)，PBBT00(28)这两块机型的后台悬浮窗需要每次都重新<code>create</code>，不能通过<code>hide/show</code>的方式，怀疑其他的oppo也类似，暂时没去尝试。建议悬浮窗的开发使用<a target="_blank" rel="noopener" href="https://github.com/princekin-f/EasyFloat">EasyFloat</a>框架，当前兼容也是需要的</li>
-<li></li>
+<li>OPPO R11s(27)，PBBT00(28)这两块机型的后台悬浮窗需要每次都重新<code>create</code>，不能通过<code>hide/show</code>的方式，怀疑其他的oppo也类似，暂时没去尝试。建议悬浮窗的开发使用<a target="_blank" rel="noopener" href="https://github.com/princekin-f/EasyFloat">EasyFloat</a>框架</li>
+<li>三星手机杀死App之后会有偶现的进程缓存(多使用会出现)，导致使用普通的方式杀死App之后，点击桌面图标重新打开不走Application的<code>onCreate</code></li>
+<li>小米通知栏不设置group的时候，假如有多条会被折叠，目前在MI 8上出现，所以我们的通知栏最好设置group.</li>
 </ol>
 <h2 id="系统的适配问题"><a href="#系统的适配问题" class="headerlink" title="系统的适配问题"></a>系统的适配问题</h2><ol>
 <li>MainActivity页面的时候点击home键，然后点击图标经过Splash闪屏页面的才能回到首页的问题，解决方案：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_31057219/article/details/104675649">FLAG_ACTIVITY_BROUGHT_TO_FRONT :app会重启启动页</a></li>
@@ -184,9 +185,6 @@
 <li>小米11自定义Toast偶现的崩溃问题，后续后发现是使用了单例导致，自定义Toast不能使用单例。而且Android11之后，后台无法展示自定义的toast，只能使用系统的才会展示，这里推荐使用<a target="_blank" rel="noopener" href="https://github.com/liweijieok/ToastUtils">ToastUtils</a>框架，他回去兼容那些不同厂商的问题。</li>
 <li>闹钟注册超出限制的问题，<code>java.lang.IllegalStateException: Maximum limit of concurrent alarms 500 reached for xxxx</code>，我们应该使用别的方式替代闹钟，比如WorkerManager</li>
 <li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/94f903bfd9f6">DialogFragment遇到的一些坑</a></li>
-<li>下面的异常，发生在vivo的11的某些手机上，解决的方法是，自定义RecyclerView，包名与RecyclerView的一致，然后继承OverScroller编写一个新的VivoOverScroller，针对vivo(V2115A和V2134A)的Android11，则使用这个OverScroller，重写<code>computeScrollOffset</code>并super父类方法，对它进行<code>try/catch</code><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.lang.ArrayIndexOutOfBoundsException</span><br><span class="line">android.widget.OverScroller$SplineOverScroller.update(OverScroller.java:16902</span><br><span class="line">android.widget.OverScroller.computeScrollOffset(OverScroller.java:784)</span><br><span class="line">androidx.recyclerview.widget.RecyclerView$ViewFlinger.void run()(RecyclerView.java:5273)</span><br></pre></td></tr></table></figure></li>
-<li>RecyclerView 自动滚动，比如在多个Fragment之前切换的时候，某个Rv会滚动到底部，原由和解决方案<a target="_blank" rel="noopener" href="http://t.zoukankan.com/yang12318-p-9091531.html">关于含RecyclerView的fragment来回切换时页面自动滑动到底部的解决方法</a></li>
-<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/06/29/workmanager_bug/">WorkManager的问题</a></li>
 </ol>
 <h2 id="ANR问题优化"><a href="#ANR问题优化" class="headerlink" title="ANR问题优化"></a>ANR问题优化</h2><ol>
 <li>系统跨进程导致的anr，比如频繁的判断某个权限是否已经获取，这里的频繁是指1s内可能check多次。优化的方向是使用权限缓存，因为用户不可能这么频繁的去更改app的权限，我们只需要做一套机制，在内存保存一份权限的获取情况的内容即可。</li>
@@ -205,7 +203,6 @@
 <li>复杂页面不建议使用<code>MediatorLiveData</code>组合多个<code>LiveData</code>，单页面少请求的可以使用。</li>
 <li>app单纯的时间间隔计算可以考虑使用<code>SystemClock.elapsedRealtime()</code>，他不必担心用户修改本地的日期。</li>
 <li>Fragment的填充，需要按照流程，先<code>findFragmentByTag</code>，如果返回的不为空而且<code>isAdded()</code>返回了<code>true</code>就直接show，否则就通过调用<code>add(int containerViewId,Fragment fragment,String tag)</code>添加，然后hide的时候，同样的如果内存中的Fragment为空，就通过<code>findFragmentByTag</code>查找，返回不为空就可以调用<code>hide()</code></li>
-<li></li>
 </ol>
 
       

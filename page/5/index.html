@@ -140,6 +140,155 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-arraylist" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/06/03/arraylist/">ArrayList源码分析</a>
+    </h1>
+  
+
+        
+        <a href="/2020/06/03/arraylist/" class="archive-article-date">
+  	<time datetime="2020-06-02T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-06-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>源码版本是java1.8。主要是分析他的增删查改，扩容机制，迭代器使用等。他基本复写了<code>AbstractList</code>和<code>AbstractCollection</code>中有所实现的方法。</p>
+<h2 id="构造方法"><a href="#构造方法" class="headerlink" title="构造方法"></a>构造方法</h2><ol>
+<li>无参构造</li>
+<li>给定一个初始化大小</li>
+<li>把一个Collection的实现类通过<code>toArray()</code>方法转换成当前ArrayList可以装下的列表。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ArrayList()</span><br><span class="line">ArrayList(int initialCapacity)</span><br><span class="line">ArrayList(Collection&lt;? extends E&gt; c)</span><br></pre></td></tr></table></figure></li>
+</ol>
+        
+          <a class="article-more-a" href="/2020/06/03/arraylist/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-constrain_layout" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/10/constrain_layout/">ConstraintLayout使用</a>
+    </h1>
+  
+
+        
+        <a href="/2019/11/10/constrain_layout/" class="archive-article-date">
+  	<time datetime="2019-11-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-11-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们在编写复杂页面的时候，一般使用RL控件。现在我们可以尽量使用ConstraintLayout进行替换，效率高，更加方便布局，性能也更好。而且相对于RelativeLayout，他更加灵活，比如RL的子控件假如是<code>layout_centerHorizontal</code>或者是类似的定义了之后，他们其他子控件参照与该控件的那些<code>toXXXOf</code>就会失效，有些居中操作也不好处理。他的不好地方可能是一开始不适应，而且会相对复杂，编写代码较多，但是适应之后就变得比较舒服与合适。</p>
+        
+          <a class="article-more-a" href="/2019/11/10/constrain_layout/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-java_proxy" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -718,152 +867,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-modulesample" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/20/modulesample/">使用ARouter实现组件化</a>
-    </h1>
-  
-
-        
-        <a href="/2017/04/20/modulesample/" class="archive-article-date">
-  	<time datetime="2017-04-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-20</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ARouter是阿里在github上面的一个开源项目，地址是：<a target="_blank" rel="noopener" href="https://github.com/alibaba/ARouter/">ARouter</a><br>本文不是重点分享ARouter的使用，而是分享使用ARouter如何去组件化。关于它的详细使用，大家可以看文档以及加群向询问。关于如何编写一个路由实现组件化，推荐看我同事的一篇文章<a target="_blank" rel="noopener" href="http://www.jianshu.com/p/fe436a4ac530">手把手教你写Router框架入门篇</a></p>
-        
-          <a class="article-more-a" href="/2017/04/20/modulesample/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-view_event" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/16/view_event/">View的事件传递深入理解</a>
-    </h1>
-  
-
-        
-        <a href="/2017/03/16/view_event/" class="archive-article-date">
-  	<time datetime="2017-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>View的集成关系树：<br><img src="http://ocxgpwj6l.bkt.clouddn.com/view%E6%A8%A1%E5%9E%8B.png"><br>ViewGroup继承View，用来包含显示View。View的子类是一个矩形用来显示图案，也称为Widget。</p>
-<h3 id="View的事件分发"><a href="#View的事件分发" class="headerlink" title="View的事件分发"></a>View的事件分发</h3><h4 id="View的事件基础分析"><a href="#View的事件基础分析" class="headerlink" title="View的事件基础分析"></a>View的事件基础分析</h4><h5 id="View的onClick事件分析"><a href="#View的onClick事件分析" class="headerlink" title="View的onClick事件分析"></a>View的onClick事件分析</h5><p>例子说明：我们给一个View设置两个事件，一个是OnClickListener，另外一个是onTouchListener。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public void onClick(View view) &#123;</span><br><span class="line">               Log.i(&quot;MainActivityLog&quot;, &quot;onclick&quot;);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br><span class="line">       findViewById(R.id.tv).setOnTouchListener(new View.OnTouchListener() &#123;</span><br><span class="line">           @Override</span><br><span class="line">           public boolean onTouch(View view, MotionEvent motionEvent) &#123;</span><br><span class="line">               Log.i(&quot;MainActivityLog&quot;, &quot;onTouch,action&#x3D;&quot;+motionEvent.getAction());</span><br><span class="line">               &#x2F;&#x2F; return false；</span><br><span class="line">               return true;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;);</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/2017/03/16/view_event/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
