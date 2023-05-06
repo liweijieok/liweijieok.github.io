@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | liweijie</title>
+  <title>Java多线程篇一 | liweijie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="liweijie">
-<meta property="og:url" content="http://example.com/archives/page/6/index.html">
+  <meta name="description" content="本文会开始去总结在Java中的使用到的一些多线程的知识点，阅读本文需要有一定的多线程使用经验。本篇主要是  一些线程的基础知识 synchronized使用 Object类自带的线程同步方法 Thread类的API说明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程篇一">
+<meta property="og:url" content="http://example.com/2022/05/06/java_thread1/index.html">
 <meta property="og:site_name" content="liweijie">
+<meta property="og:description" content="本文会开始去总结在Java中的使用到的一些多线程的知识点，阅读本文需要有一定的多线程使用经验。本篇主要是  一些线程的基础知识 synchronized使用 Object类自带的线程同步方法 Thread类的API说明">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/res/2/WEBRESOURCE2f39e69e7a6776e8778883fc6991b082">
+<meta property="article:published_time" content="2022-05-06T14:48:57.000Z">
+<meta property="article:modified_time" content="2023-05-06T16:49:28.726Z">
 <meta property="article:author" content="liweijie">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/res/2/WEBRESOURCE2f39e69e7a6776e8778883fc6991b082">
   
     <link rel="alternative" href="/atom.xml" title="liweijie" type="application/atom+xml">
   
@@ -138,160 +145,149 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-java_thread1" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/03/21/promise_learn/" class="archive-article-date">
-  	<time datetime="2018-03-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-03-21</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/03/21/promise_learn/">Promise学习和使用</a>
+    <h1 class="article-title" itemprop="name">
+      Java多线程篇一
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">JavaScript</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/04/20/modulesample/" class="archive-article-date">
-  	<time datetime="2017-04-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-04-20</time>
+        
+        <a href="/2022/05/06/java_thread1/" class="archive-article-date">
+  	<time datetime="2022-05-06T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-05-06</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/04/20/modulesample/">使用ARouter实现组件化</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
+        
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/03/16/view_event/" class="archive-article-date">
-  	<time datetime="2017-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-03-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/16/view_event/">View的事件传递深入理解</a>
-    </h1>
-  
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文会开始去总结在Java中的使用到的一些多线程的知识点，阅读本文需要有一定的多线程使用经验。<br>本篇主要是</p>
+<ol>
+<li>一些线程的基础知识</li>
+<li><code>synchronized</code>使用</li>
+<li><code>Object</code>类自带的线程同步方法</li>
+<li><code>Thread</code>类的API说明<span id="more"></span></li>
+</ol>
+<h2 id="前置知识"><a href="#前置知识" class="headerlink" title="前置知识"></a>前置知识</h2><p>在开始之前，我们需要先对线程有一定的认识。<br>首先是线程的创建方式：</p>
+<ol>
+<li>单纯的使用Thread，匿名类or实现类</li>
+<li>使用Runable&amp;Thread</li>
+<li>使用Runable&amp;FutureTask&amp;Thread</li>
+<li>使用Callable&amp;FutureTask&amp;Thread</li>
+</ol>
+<p>线程的数据：每一个线程都会有自己单独的内存分配区域，叫做线程栈，对于堆内存，是所有线程共用的。所以假如有多个线程需要对同一个堆内存对象进行修改访问，就可能会出现并发的问题。即会有死锁，数据不正确等异常。</p>
+<p>线程的状态：</p>
+<ol>
+<li>初始：新创建一个线程对象，没有调用start()方法<br>它们2. 运行：java线程中将就绪(reday)&amp;运行中(running)统称为运行，调用了线程对象的start()方法之后，该线程就开始等待被内核调度，等待获取cpu的使用权，这时候是处于就绪状态，就绪状态的线程获取cpu的执行就是运行中的状态</li>
+<li>阻塞：表示线程处于阻塞</li>
+<li>等待：进入该状态的线程需要等待其他线程做出一些特定动作（通知or中断）</li>
+<li>超时等待：该状态不同于等待，他可以在指定的时间后自行返回</li>
+<li>终止：表示线程已经执行完毕</li>
+</ol>
+<p><img src="https://note.youdao.com/yws/res/2/WEBRESOURCE2f39e69e7a6776e8778883fc6991b082" alt="线程状态图"></p>
+<p>文章地址：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/pange1991/article/details/53860651">图解Java线程的6种状态及切换</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/xyzyhs/article/details/121417200">java线程状态（六种&amp;五种）</a></li>
+</ol>
+<p>在running的时候：</p>
+<ol>
+<li>获取锁失败，进入阻塞状态(竞争不过别的线程)，获取锁成功之后则进入running。</li>
+<li>获取到锁之后调用了wait()方法，则会释放锁，则进入等待状态，调用了notify()系列方法，才会被唤醒，这块在<a href="#thread_api">Objec的线程同步方案</a>中有具体的描述</li>
+<li>获取wail(long)，则进入超时等待，调用了notify()或者是时间到则进入runing</li>
+<li>调用了sleep(long)，也是进入超时等待，时间到了之后则重新进入running</li>
+<li>代码执行完成，则进入终止状态</li>
+</ol>
+<h2 id="synchronized关键字"><a href="#synchronized关键字" class="headerlink" title="synchronized关键字"></a>synchronized关键字</h2><p>我们先说<code>synchronized</code>关键字，因为<a href="#thread_api">Objec的线程同步方案</a>中有具体的描述的使用需要结合到该关键字。</p>
+<p>先说<code>synchronized</code>修饰代码块：这种情况下它的锁是对象锁：例如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">public class Hello &#123;</span><br><span class="line">    private Object object &#x3D; new Object();</span><br><span class="line">    static int a &#x3D; 0;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Hello h &#x3D; new Hello();</span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                h.add();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                h.reduce();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line">    public void add() &#123;</span><br><span class="line">        synchronized (object) &#123;</span><br><span class="line">            for (int i &#x3D; 0; i &lt; 100000; i++) &#123;</span><br><span class="line">                a++;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    public void reduce() &#123;</span><br><span class="line">        synchronized (object) &#123;</span><br><span class="line">            for (int i &#x3D; 0; i &lt; 100000; i++) &#123;</span><br><span class="line">                a--;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(a);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打印的结果只能是：<code>100000 &amp; 0</code>或者是<code>-100000&amp;0</code>。当<code>t1</code>运行到<code>add</code>方法的时候，它就会占用<code>object</code>这个对象锁，然后<code>t2</code>只能等待<code>t1</code>释放，在使用<code>synchronized</code>包裹的代码块执行完成之后，就会释放<code>object</code>这个对象锁，<code>t2</code>就会执行了。当然也可能是<code>t2</code>先执行先获取到<code>object</code>对象锁，看谁先占用cpu的时间片。</p>
+<p><code>synchronized</code>作用于方法。例如下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public class Hello &#123;</span><br><span class="line">    static int a &#x3D; 0;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line"></span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                add();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                reduce();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line">    public static synchronized void add() &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 100000; i++) &#123;</span><br><span class="line">            a++;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">    public static synchronized void reduce() &#123;</span><br><span class="line">        for (int i &#x3D; 0; i &lt; 100000; i++) &#123;</span><br><span class="line">            a--;</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>假如<code>synchronized</code>是修饰<code>静态方法</code>，则它的锁对象是当前类的<code>Class</code>对象，假如是成员方法，则是当前成员对象。上面的例子就是当前类的<code>Class</code>对象</p>
+<p>synchronized锁是可重入的，并且他也有一个计数器，在同一个线程内synchronized代码块再次被调用，被相同的锁的synchronized代码块时，这个仙童的线程再次进入被锁锁住的代码块，锁的计数器再次自增1，到达2，所以需要等待锁的计数器下降为0时才能释放锁，即需要两层的synchronized代码块都被执行完成之后才会释放锁，</p>
+<blockquote>
+<p>可重入性：即同一个现场多次试图获取它所占用的锁，请求会成功，当释放锁的时候，直到重入次数清零，锁才释放完毕。</p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 调用reduce() ，进入到了reduce1()之后锁自增到2，需要reduce1()执行完，然后reduce()也执行完之后才会释放锁</span><br><span class="line">public synchronized void reduce() &#123;</span><br><span class="line">        reduce1();</span><br><span class="line">    &#125;</span><br><span class="line">public synchronized void reduce1()&#123;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
+<p>synchronized的缺点：它是悲观锁，执行效率较差。</p>
+<h2 id="Objec的线程同步方案"><a href="#Objec的线程同步方案" class="headerlink" title="Objec的线程同步方案"></a>Objec的线程同步方案</h2><p><a id="thread_api"></a></p>
+<p>我们可以使用<code>notify/wait</code>机制来实现线程之间的同步，比如可以实现某一个线程等待别的线程执行完成之后再执行。也可以用于避免死锁的问题(记得调用<code>notify</code>相关的方法)，比如避免某个锁被某个线程获取之后进入了阻塞or没有释放的时候，别的线程无法获取到该锁就会进入阻塞也可能进入死锁的状态。</p>
+<p>我们的<code>notify</code>和<code>wait</code>是需要搭配<code>synchonized</code>一起使用，假如不在<code>synchronized</code>方法或者是代码块中执行，则会抛出<code>IllegalMonitorStateException</code>异常。例如下面的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 想要实现先打印t2在打印t1的功能，下面的代码就会报 java.lang.IllegalMonitorStateException</span><br><span class="line">public static void main(String[] args) throws ExecutionException, InterruptedException &#123;</span><br><span class="line">        Object obj &#x3D; new Object();</span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                try &#123;</span><br><span class="line">                    obj.wait();</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;再打印t1&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                System.out.println(&quot;先打印t2&quot;);</span><br><span class="line">                obj.notify();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-          
+<p>为什么我们需要使用<code>synchonized</code>来包裹<code>wait/notify</code>呢，假设一个生成-消费的模型，例如下面的伪代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;生产者</span><br><span class="line">count++;</span><br><span class="line">notify();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;消费者</span><br><span class="line">while(count &lt;&#x3D; 0)&#123;</span><br><span class="line">    wait();</span><br><span class="line">    count--;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/02/06/java_poet_learn/" class="archive-article-date">
-  	<time datetime="2017-02-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-02-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/06/java_poet_learn/">JavaPoet开源项目使用</a>
-    </h1>
-  
+<p>在多线程环境下，上面的代码存在的问题是：假如count的时候，执行了消费者线程，然后判断符合进入了条件判断，然后线程切换到了生产者，执行完成了，调用了<code>notify()</code>，但是我们的消费线程并不是处于<code>wait</code>状态，这就导致了后面再去<code>wait</code>的时候已经丢失了<code>notify()</code>，这就是<code>lost wake up</code>的问题。即没有保证原子性。要解决这个问题，我们就需要给生成&amp;消费者共用一把锁，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;生产者</span><br><span class="line">lock();</span><br><span class="line">count++;</span><br><span class="line">notify();</span><br><span class="line">unlock();</span><br><span class="line">&#x2F;&#x2F;消费者</span><br><span class="line">lock();</span><br><span class="line">while(count &lt;&#x3D; 0)&#123;</span><br><span class="line">    wait();</span><br><span class="line">    count--;</span><br><span class="line">&#125;</span><br><span class="line">unlock();</span><br></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
+<p>但是还是会有问题，即<code>lock()</code>的锁与我们调用<code>wait()</code>不是同一个，我们调用到了<code>wait()</code>的时候，会释放当前的对象锁，这样就会造成死锁的问题(假如lock()与<code>wait()</code>也是使用同一个对象，除了<code>synchronized</code>之外我不太清楚是否还有别的方式)。</p>
+<p>我们使用<code>synchronized</code>，把<code>wait/notify</code>方法调用包裹起来，然后它们使用同样的锁就可以正常了，比如下面的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) throws ExecutionException, InterruptedException &#123;</span><br><span class="line">        Object obj &#x3D; new Object();</span><br><span class="line">        Thread t1 &#x3D; new Thread(() -&gt; &#123;</span><br><span class="line">            synchronized (obj)&#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    obj.wait();</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;再打印t1&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        Thread t2 &#x3D; new Thread(() -&gt; &#123;</span><br><span class="line">            synchronized (obj)&#123;</span><br><span class="line">                System.out.println(&quot;先打印t2&quot;);</span><br><span class="line">                obj.notify();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过上面我们可以看到它可以保证原子性的同时也不会造成死锁，因为我们的<code>synchronized</code>与<code>wait/notify</code>使用同一个锁，在调用<code>wait</code>的时候，它会把自己代码块的<code>synchronized</code>的锁也一起释放掉。 参考文章：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904088505679879">为什么wait()方法要放在同步块中？</a></li>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/76625784">为什么wait()和notify()需要搭配synchonized关键字使用？</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/AttleeTao/article/details/110133661">Java等待唤醒机制wait&#x2F;notify深入解析
+</a></li>
+</ol>
+<p>关于线程自带的一些方法和Object自带的方法，我们会在下面一一说到。</p>
+<ol>
+<li><code>wait()</code>，锁对象调用该方法之后，则调用线程进入了等待的状态，调用线程释放对象锁，调用的是<code>wait(0)</code>，表示直接释放锁，没有超时重新进行running(即可以去抢夺cpu执行的权利，只能等待<code>notify</code>)。</li>
+<li><code>wait(long timeout)</code>，与<code>wait()</code>类似，只是它等待指定的毫秒数，如果超过指定时，则自动把该线程从等待状态设置为running(可以抢cpu的执行)，调用之后进入超时等待的状态。</li>
+<li><code>wait(long timeout int manos)</code>，与<code>wait(long timeout)</code>，与上类似，只是它的等到时间是毫秒+纳秒，调用之后进入超时等待的状态。</li>
+<li><code>notify()</code>：唤起一个与对象锁关联的线程，一次唤醒一个，而且是任意的。假如一个锁被多个线程使用，多个线程处于等待状态则随机唤醒一个，它也是释放当前自己的锁，包含一起的<code>synchronized</code>的锁。</li>
+<li><code>notifyAll()</code>：唤起与对象锁关联的所有线程，所有的线程都是切换到running。</li>
+</ol>
+<p>其中<code>wait()</code>调用了之后，必须是需要调用<code>notify()</code>或者是<code>notifyAll()</code>之后，线程才会被重新唤起，否则会一直处于等待状态。然后<code>wait(long timeout)</code>与<code>wait(long timeout int manos)</code>方法，使用同一个锁的时候，假如是其他线程没有调用<code>notify()</code>或者是<code>notifyAll()</code>方法，而且也没有释放锁</p>
+<p>我们使用这些api可以实现一个生成者消费者的模式的基本代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;生产者生产了10之后会交给消费者然后自己等待，消费者消费了10之后自己等待轮到生产者去生产。</span><br><span class="line">public class JavaTest &#123;</span><br><span class="line"></span><br><span class="line">    private static final ArrayList&lt;Integer&gt; data &#x3D; new ArrayList&lt;&gt;();</span><br><span class="line">    private static int p &#x3D; 0;</span><br><span class="line">    private static int c &#x3D; 0;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Thread t1 &#x3D; new Thread(&quot;生产&quot;) &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                while (true) &#123;</span><br><span class="line">                    synchronized (data) &#123;</span><br><span class="line">                        if (data.size() &gt; 0 &amp;&amp; data.size() % 10 &#x3D;&#x3D; 0) &#123;</span><br><span class="line">                            try &#123;</span><br><span class="line">                                data.wait();</span><br><span class="line">                            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                                throw new RuntimeException(e);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        for (int i &#x3D; 0; i &lt; 10; i++) &#123;</span><br><span class="line">                            data.add((i));</span><br><span class="line">                            System.out.print(&quot;生产:&quot; + data.get(i) + &quot;，&quot;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(&quot;\n生产 end------&quot;);</span><br><span class="line">                        data.notify();</span><br><span class="line">                        if (p &#x3D;&#x3D; 2) &#123;</span><br><span class="line">                            break;</span><br><span class="line">                        &#125;</span><br><span class="line">                        p++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread(&quot;消费&quot;) &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                while (true) &#123;</span><br><span class="line">                    synchronized (data) &#123;</span><br><span class="line">                        if (data.size() &#x3D;&#x3D; 0) &#123;</span><br><span class="line">                            try &#123;</span><br><span class="line">                                data.wait();</span><br><span class="line">                            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                                throw new RuntimeException(e);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        for (int i &#x3D; 0; i &lt; data.size(); ) &#123;</span><br><span class="line">                            System.out.print(&quot;消费:&quot; + data.remove(0) + &quot;，&quot;);</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(&quot;\n消费 end------&quot;);</span><br><span class="line">                        data.notify();</span><br><span class="line">                        if (c &#x3D;&#x3D; 2) &#123;</span><br><span class="line">                            break;</span><br><span class="line">                        &#125;</span><br><span class="line">                        c++;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外一个<code>wait(long)</code>的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;打印结果是1456237,假如t2不调用start，则在20ms之后，打印2</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Object obj &#x3D; new Object();</span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                synchronized (obj) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        System.out.println(&quot;1&quot;);</span><br><span class="line">                        obj.wait(10);</span><br><span class="line">                        System.out.println(&quot;2&quot;);</span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        throw new RuntimeException(e);</span><br><span class="line">                    &#125;</span><br><span class="line">                    System.out.println(&quot;3&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                synchronized (obj) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        System.out.println(&quot;4&quot;);</span><br><span class="line">                        Thread.sleep(300);</span><br><span class="line">                        System.out.println(&quot;5&quot;);</span><br><span class="line">                        obj.notify();</span><br><span class="line"></span><br><span class="line">                    &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                        throw new RuntimeException(e);</span><br><span class="line">                    &#125;</span><br><span class="line">                    System.out.println(&quot;6&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">                try &#123;</span><br><span class="line">                    Thread.sleep(300);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;7&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Thread的API"><a href="#Thread的API" class="headerlink" title="Thread的API"></a>Thread的API</h2><ol>
+<li><code>sleep(long)</code>，当前线程休眠多少毫秒，它与<code>wait</code>的区别是它不会释放锁。</li>
+<li><code>isAlive()</code>，判断当前线程是否处于活动状态，true为是，在调用start之后，run方法运行结束之前是true，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/Xmumu_/article/details/113818859">isAlive()方法解释</a></li>
+<li><code>isDaemon()</code>，判断是否是守护线程，较少用到，参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/u011389474/article/details/60880345">守护线程 java.lang.Thread.isDaemon()方法</a></li>
+<li><code>interrupt()</code>，它是一个成员方法，调用该方法不会立马停止线程，而是把中断标识设置为true。假如我们有调用<code>sleep()/wait()</code>等会抛出中断异常的方法的时候，它会接受到中断异常，假如我们catch了该异常则线程不会停止。没调用是不会收到的，它需要在调用<code>start</code>方法之后才起效。</li>
+<li><code>interrupted()</code>，它是一个类方法，测试当前所在的运行线程是否已被中断，返回一个boolean值并清除中断状态，第二次调用的时候中断状态会返回false。</li>
+<li><code>isInterrupted()</code>，该方法仅仅返回中断状态，不会清除中断标志。</li>
+<li><code>setProperty()</code>，需要再<code>start()</code>方法之前调用，在没有指定线程优先级的时候，线程都带有普通的优先级，线程的优先级可以分为1-10，10代表最高优先级，1是最低，普通为5，优先级高的在运行时基于有限，但是不能保证线程启动后立刻进入运行状态。</li>
+<li><code>setName()</code>，设置线程名称，也可以在创建线程的时候传入</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 中断方法的例子</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                for (int i &#x3D; 0; i &lt; 10; i++) &#123;</span><br><span class="line">                    System.out.println(i);</span><br><span class="line">                &#125;</span><br><span class="line">                &#x2F;&#x2F; 不会抛出异常，除非调用了sleep,wait等方法</span><br><span class="line">                System.out.println(Thread.interrupted());</span><br><span class="line">                &#x2F;&#x2F;这里返回false</span><br><span class="line">                System.out.println(Thread.interrupted());</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t1.interrupt();</span><br><span class="line">        System.out.println(t1.isInterrupted());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>还有两个比较关键的方法：</p>
+<ol>
+<li><code>join</code>：他可以让线程可以串行执行。比如在线程A中，调用了线程B的<code>join()</code>方法，则是需要等待线程B执行完成之后，才会继续执行A，它的原理是通过调用<code>wait(0)</code>方法实现的，调用的<code>join(0)</code>，该方法需要再调用了对应现场的<code>start</code>之后再调用才会起效，参考文章：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lcplcpjava/p/6896904.html">java 线程方法join的简单总结</a></li>
+<li><code>join(long)</code>和<code>join(long , int )</code>：简单的描述就是让对应调用了<code>join</code>方法的线程先执行传入的时间，然后再互相竞争cpu的执行权</li>
+<li><code>yield</code>：它是一个类方法，会暂停当前正在执行的线程对象，并且执行其他的线程，但是可能会不起效。它相当于把当前的现场从running中的运行状态转为就绪状态。在后续cpu分配过程中有可能会再次进入运行状态，参考文章<a target="_blank" rel="noopener" href="https://blog.csdn.net/zhaoliubao1/article/details/102463235">yield()方法详解</a></li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; join的例子</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                try &#123;</span><br><span class="line">                    Thread.sleep(200);</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">                System.out.println(&quot;t1&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                System.out.println(&quot;t2&quot;);</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        &#x2F;&#x2F;先打印t1，在打印t2</span><br><span class="line">        t1.join();</span><br><span class="line">        &#x2F;&#x2F; 先打印t2，然后是t1</span><br><span class="line">&#x2F;&#x2F;        t1.join(100);</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>废弃的方法：</p>
+<ol>
+<li><code>stop() </code>：暂停线程</li>
+<li><code>suspend()</code>：挂起线程</li>
+<li><code>resume()</code>：恢复线程</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -303,262 +299,77 @@
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/01/05/java_annotation/" class="archive-article-date">
-  	<time datetime="2017-01-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-01-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/01/05/java_annotation/">JAVA注解</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/04/git_cmd/" class="archive-article-date">
-  	<time datetime="2016-11-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/04/git_cmd/">Git常用命令</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开发规范</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/04/gitrerecommend/" class="archive-article-date">
-  	<time datetime="2016-11-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-04</time>
-</a>
+<nav id="article-nav">
+  
+    <a href="/2022/05/16/eventbus3/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          EventBus3.x源码解析-register流程分析(注解方式)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2022/05/05/eventbus2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">EventBus3.x源码解析-register流程分析(反射方式)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/04/gitrerecommend/">自定义具有透明度变化和前进的ProgressBar</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开发规范</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86"><span class="toc-number">1.</span> <span class="toc-text">前置知识</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#synchronized%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">2.</span> <span class="toc-text">synchronized关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Objec%E7%9A%84%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%AD%A5%E6%96%B9%E6%A1%88"><span class="toc-number">3.</span> <span class="toc-text">Objec的线程同步方案</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Thread%E7%9A%84API"><span class="toc-number">4.</span> <span class="toc-text">Thread的API</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
         </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
+        
+    </div>
+</aside>
+
+
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/11/04/rx_java_cmd/" class="archive-article-date">
-  	<time datetime="2016-11-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-11-04</time>
-</a>
-        </div>
-    	 
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/11/04/rx_java_cmd/">RXJava的使用</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/16/anim_switch_view/" class="archive-article-date">
-  	<time datetime="2016-10-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/16/anim_switch_view/">自定义SwitchView升级版</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/10/15/transition_switch_view/" class="archive-article-date">
-  	<time datetime="2016-10-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/10/15/transition_switch_view/">自定义带有move动画的SwitchView</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/5/">«上一页</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/4/">4</a><a class="page-number" href="/archives/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/7/">下一页»</a>
-    </nav>
-  
-
 
 
           </div>
@@ -581,8 +392,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
