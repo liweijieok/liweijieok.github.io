@@ -6,15 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>liweijie</title>
+  <title>Java多线程篇二 | liweijie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="liweijie">
-<meta property="og:url" content="http://example.com/page/4/index.html">
+  <meta name="description" content="这是一个系列文章：  Java多线程篇1  本篇主要的内容是：  volatile关键字 LockSupport类使用 Lock类使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java多线程篇二">
+<meta property="og:url" content="http://example.com/2022/08/09/java_thread2/index.html">
 <meta property="og:site_name" content="liweijie">
+<meta property="og:description" content="这是一个系列文章：  Java多线程篇1  本篇主要的内容是：  volatile关键字 LockSupport类使用 Lock类使用">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://note.youdao.com/yws/res/2/WEBRESOURCE99d6a28cbfd23dca9550aa99229ea712">
+<meta property="article:published_time" content="2022-08-09T14:48:57.000Z">
+<meta property="article:modified_time" content="2023-05-09T12:56:26.496Z">
 <meta property="article:author" content="liweijie">
+<meta property="article:tag" content="Java">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://note.youdao.com/yws/res/2/WEBRESOURCE99d6a28cbfd23dca9550aa99229ea712">
   
     <link rel="alternative" href="/atom.xml" title="liweijie" type="application/atom+xml">
   
@@ -138,544 +145,101 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-    <article id="post-livedata" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+            <article id="post-java_thread2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/02/livedata/">Jetpack之LiveData使用和源码解析</a>
+    <h1 class="article-title" itemprop="name">
+      Java多线程篇二
     </h1>
   
 
         
-        <a href="/2021/05/02/livedata/" class="archive-article-date">
-  	<time datetime="2021-05-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-02</time>
+        <a href="/2022/08/09/java_thread2/" class="archive-article-date">
+  	<time datetime="2022-08-09T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-08-09</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>LiveData的主要作用是可以通过观察者模式进行异步的通知，我们使用它的主要场景就是把网络数据，数据库数据等通过异步的方式通知UI。他的优点是可以避免内存泄漏，与生命周期关联起来，回调也是在主线程中。</p>
-        
-          <a class="article-more-a" href="/2021/05/02/livedata/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-savedstate" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/05/01/savedstate/">Jetpack之SavedState的使用和源码解析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/05/01/savedstate/" class="archive-article-date">
-  	<time datetime="2021-04-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-05-01</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>SavedState组件是用于保存和恢复数据，替换<code>onSaveInstanceState</code>方法。我们的数据会因为Activity&#x2F;Fragment被系统回收，屏幕旋转等导致丢失，除了常规的<code>onSaveInstanceState</code>中去保存以外，我们可以使用<code>savedstate</code>组件，他可以结合ViewModel，LiveData一起使用，比较的灵活简便。</p>
-        
-          <a class="article-more-a" href="/2021/05/01/savedstate/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-viewmodel" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/28/viewmodel/">Jetpack之ViewModel源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/28/viewmodel/" class="archive-article-date">
-  	<time datetime="2021-04-28T04:00:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ViewModel是Jetpack提供给我们使用的一个组件，他的作用是可以作为View和Model的中介，使得数据和页面分离，同时能避免内存泄漏的问题。</p>
-        
-          <a class="article-more-a" href="/2021/04/28/viewmodel/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lifecycle-process&amp;lifecycle-service" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/28/lifecycle-process&lifecycle-service/">Jetpack之Process和Service.</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/28/lifecycle-process&lifecycle-service/" class="archive-article-date">
-  	<time datetime="2021-04-28T04:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们这里主要是分析Lifecycle的两个组件，他们是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation &quot;androidx.lifecycle:lifecycle-process:$lifecycle_version&quot;</span><br><span class="line">implementation &quot;androidx.lifecycle:lifecycle-service:$lifecycle_version&quot;</span><br></pre></td></tr></table></figure>
-
-<p><code>lifecycle-process</code>是用来感知整个应用的生命周期，比如我们要知道当前引用处于前台还是后台。<code>lifecycle-service</code>是用来感知Service的生命周期的。</p>
-        
-          <a class="article-more-a" href="/2021/04/28/lifecycle-process&lifecycle-service/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-lifecycle" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/27/lifecycle/">Jetpack之Lifecycle源码分析</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/27/lifecycle/" class="archive-article-date">
-  	<time datetime="2021-04-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Lifecycle是Jetpack的核心组件，他可以无侵入的观测到Activity&#x2F;Fragment的生命周期变化，解耦代码。对于ViewModel，LifeData，以及一些需要感知生命周期的方法或组件可以提供帮助。官网使用介绍地址是<a target="_blank" rel="noopener" href="https://developer.android.com/jetpack/androidx/releases/lifecycle?hl=zh-cn#kotlin">lifecycle</a>。</p>
-        
-          <a class="article-more-a" href="/2021/04/27/lifecycle/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-FastSafeIterableMap" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/26/FastSafeIterableMap/">Jetpack之FastSafeIterableMap源码</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/26/FastSafeIterableMap/" class="archive-article-date">
-  	<time datetime="2021-04-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-26</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们在分析Lifecycle源码之前先看下FastSafeIterableMap的源码，因为Lifecycle组件的关键类LifecycleRegistry使用到，而且是关键的属性。</p>
-<p>首先，他继承自<code>SafeIterableMap</code>，而<code>SafeIterableMap</code>继承自<code>Iterable&lt;Map.Entry&lt;K, V&gt;&gt;</code>。我们就先分析<code>SafeIterableMap</code>的源码</p>
-        
-          <a class="article-more-a" href="/2021/04/26/FastSafeIterableMap/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-databinding" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/25/databinding/">Jetpack之DataBinding</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/25/databinding/" class="archive-article-date">
-  	<time datetime="2021-04-25T08:26:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-25</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>DataBinding是可以用来实现MVVM的一种很合适的方案，可以极大的精简Activity的逻辑代码。他能够在xml中引入简单的逻辑代码，也能够非常灵活的利用View自带的属性进行设置，同时也支持数据的双向绑定或者是单纯的View绑定。</p>
-        
-          <a class="article-more-a" href="/2021/04/25/databinding/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-jetpack" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/16/jetpack/">Jetpack的组成</a>
-    </h1>
-  
-
-        
-        <a href="/2021/04/16/jetpack/" class="archive-article-date">
-  	<time datetime="2021-04-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-04-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Jetpack介绍"><a href="#Jetpack介绍" class="headerlink" title="Jetpack介绍"></a>Jetpack介绍</h1><p>最近打算写一个系列分析Jatpack的源码，所以先看一下有那些。Jetpack是由多个库组成的套件，用于减少模板代码并编写在各种Android版本和设备中一致允运行的代码。</p>
-<p>他包含以下常用套件</p>
+        <p>这是一个系列文章：</p>
 <ol>
-<li>Lifecycle，生命周期感知组件</li>
-<li>LiveData，基于生命周期的组件
-        
-          <a class="article-more-a" href="/2021/04/16/jetpack/#more">more >></a>
-        
+<li><a target="_blank" rel="noopener" href="https://liweijieok.github.io/2022/08/06/java_thread1/">Java多线程篇1</a></li>
+</ol>
+<p>本篇主要的内容是：</p>
+<ol>
+<li>volatile关键字</li>
+<li>LockSupport类使用</li>
+<li>Lock类使用</li>
+</ol>
+<span id="more"></span>
+
+<h2 id="volatile关键字"><a href="#volatile关键字" class="headerlink" title="volatile关键字"></a>volatile关键字</h2><p>要动<code>volatile</code>关键字的使用，需要对java的内存模型&amp;共享变量的可见性有一定的了解。在JVM中，共享变量存储在主内存中，每个线程都有一个私有的本地内存，本地内存保存了该线程使用到的主内存的副本拷贝，线程对该变量的所有操作都必须在私有存中进行，而不能直接读写主内存中的变量。</p>
+<p><img src="https://note.youdao.com/yws/res/2/WEBRESOURCE99d6a28cbfd23dca9550aa99229ea712" alt="20180613171711160.png"></p>
+<p>在线程A中将共享变量修改为了某个值，这时候还没有同步到主内存中，然后线程B中保留了共享内存的旧值，就会导致共享变量值不一致，要解决这种方式最简单的就是加锁，但是使用<code>synchronized</code>或者是<code>Lock</code>等的方式会太重量了，比较合理的方式就是实用<code>volatile</code>。</p>
+<p><code>volatile</code>的特性：</p>
+<ol>
+<li>保证可见性，不保证原子性。当些一个<code>volatile</code>变量的时候，JVM会把线程本地内存也同步到主内存中，这个写操作会导致其他线程中的<code>volatile</code>变量缓存无效。</li>
+<li>禁止指令重排</li>
+</ol>
+<p>一个简单的例子，我们可以不使用<code>synchronized</code>那么重量级的来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">static class JmmDemo implements Runnable &#123;</span><br><span class="line">    &#x2F;&#x2F;不加入 volatile，不会打印子线程结束。。。</span><br><span class="line">    public  boolean flag &#x3D; true;</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        System.out.println(&quot;子线程执行。。。&quot;);</span><br><span class="line">        while (flag) &#123; &#x2F;&#x2F; 如果flag为true就会一直循环，不会结束</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(&quot;子线程结束。。。&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">    JmmDemo demo &#x3D; new JmmDemo();</span><br><span class="line">    Thread t &#x3D; new Thread(demo);</span><br><span class="line">    t.start();</span><br><span class="line">    Thread.sleep(100);</span><br><span class="line">    demo.flag &#x3D; false;</span><br><span class="line">    System.out.println(&quot;已经修改为false&quot;);</span><br><span class="line">    System.out.println(demo.flag);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们就可以不用<code>synchronized</code>去实现这样的一个功能，同时<code>synchronized</code>也无法避免指令的重排，它能做的是原子性，可见性和有序性。<br>参考文章：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012723673/article/details/80682208">Java volatile关键字最全总结：原理剖析与实例讲解(简单易懂)</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zwh0910/p/15868629.html">内存可见性以及synchronized实现可见性和Volatile实现可见性 </a></li>
+</ol>
+<h2 id="LockSupport"><a href="#LockSupport" class="headerlink" title="LockSupport"></a>LockSupport</h2><p><code>LockSupport</code>是<code>java.util.concurrent.locks</code>包下的一个类，可以用于暂停线程和恢复线程，它是使用<code>Unsafe</code>实现的，它的方法如下：</p>
+<ol>
+<li>park() : 暂停某个线程</li>
+<li>LockSupport.unpark(t1) :唤起某个线程</li>
+</ol>
+<p>例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 打印的时间会&gt;&#x3D;2000</span><br><span class="line"> Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                long start &#x3D; System.currentTimeMillis();</span><br><span class="line">                LockSupport.park();</span><br><span class="line">                System.out.println(System.currentTimeMillis() - start);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        Thread.sleep(2000);</span><br><span class="line">        LockSupport.unpark(t1);</span><br></pre></td></tr></table></figure>
+
+<p>参考文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/zyzzxycj/article/details/90268381">LockSupport详解</a></p>
+<h2 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h2><p><code>Lock</code>与<code>synchronized</code>是租用是比较类似的，但是它的使用范围会更广更优雅，<code>Lock</code>可以手动的释放锁，获取锁，可中断的获取锁，超时获取锁，相对而言会更加的灵活，同时它也可以用于替换<code>wait/notify</code>的那一套，避免可能出现的死锁(没有唤起<code>wait()</code>)，比如多个生产者1个消费者的这种情况。</p>
+<p><code>Lock</code>是一个接口，定义如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public interface Lock &#123;</span><br><span class="line">    void lock(); &#x2F;&#x2F;获得锁</span><br><span class="line">    void lockInterruptibly() throws InterruptedException; &#x2F;&#x2F;获得锁，可中断，比如当两个线程通知通过该方法想获取锁的时候，假如线程A获取到了，而线程B只在等待，那么对现场B调用threadB.interrupt()则能够中断线程B的等待过程。</span><br><span class="line">    boolean tryLock(); &#x2F;&#x2F;锁在空闲的时候才能获取(未获取到不会等待)，比如两个线程都调用该方法，线程A获取到了，线程B则不会等待直接放弃获取</span><br><span class="line">    boolean tryLock(long time, TimeUnit unit) throws InterruptedException; &#x2F;&#x2F;如果锁可用则返回true，如果锁不可用，则当前线程</span><br><span class="line">    void unlock(); &#x2F;&#x2F;释放锁</span><br><span class="line">    Condition newCondition();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lock的实现代表类是<code>ReentrantLock</code>(可重入锁)，我们先看下<code>ReentrantLock</code>，它是依靠CAS和LockSupport实现的，先看下面一个简单的例子(用于替换<code>synchronized</code>)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; lock()方法会阻塞住，直到能获取锁</span><br><span class="line">    private static int x &#x3D; 0;</span><br><span class="line">    private static void add() &#123;</span><br><span class="line">        x++;</span><br><span class="line">    &#125;</span><br><span class="line">    private static void reduce() &#123;</span><br><span class="line">        x--;</span><br><span class="line">    &#125;</span><br><span class="line">    public static void main(String[] args) throws InterruptedException &#123;</span><br><span class="line">        Lock lock &#x3D; new ReentrantLock();</span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                lock.t2.interrupt();();</span><br><span class="line">                try &#123;</span><br><span class="line">                    for (int i &#x3D; 0; i &lt; 100000; i++) &#123;</span><br><span class="line">                        add();</span><br><span class="line">                    &#125;</span><br><span class="line">                    System.out.println(x);</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                lock.lock();</span><br><span class="line">                try &#123;</span><br><span class="line">                    for (int i &#x3D; 0; i &lt; 100000; i++) &#123;</span><br><span class="line">                        reduce();</span><br><span class="line">                    &#125;</span><br><span class="line">                    System.out.println(x);</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>只会打印<code>100000,0</code>或者是<code>-100000,0</code>，作用是与<code>synchronized</code>类似，需要注意的是我们都需要在<code>finally</code>中调用<code>unlock()</code>方法，避免程序运行出现了异常没有释放锁。<br>它的构造函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;  非公平锁</span><br><span class="line">public ReentrantLock() &#123;</span><br><span class="line">    sync &#x3D; new NonfairSync();</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;  true为公平，false为不公平</span><br><span class="line">public ReentrantLock(boolean fair) &#123;</span><br><span class="line">    sync &#x3D; fair ? new FairSync() : new NonfairSync();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>非公平与公平锁的不同</p>
+<ol>
+<li>非公平锁在调用<code>lock</code>之后，首先会调用CAS进行一次抢夺，假如锁没有被占用，就直接获取锁返回</li>
+<li>非公平锁在CSA失败后，和公平锁一样进入<code>tryAcquire</code>，假如发现这时候锁被释放了，非公平锁就会直接CAS枪锁，但是公平锁会判断等待队列是由有线程处于等待状态，有就不会去抢夺，乖乖排在后面。</li>
+<li>假如在<code>tryAcquire</code>抢夺失败，则线程进入阻塞状态。</li>
+</ol>
+<p>相对而言，非公平锁性能更好，当然非公平锁让获取锁的时间变得更加不确定，可能导致阻塞队列中的线程长期处于饥饿状态。文章来源：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2ada27eee90b">理解ReentrantLock的公平锁和非公平锁</a><br>使用了更多API的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; trylock() 例子，返回false的时候不阻塞，可以向下继续运行</span><br><span class="line">ReentrantLock lock &#x3D; new ReentrantLock();</span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                boolean flag &#x3D; lock.tryLock();</span><br><span class="line">                if (flag) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        System.out.println(&quot;t1 true&quot;);</span><br><span class="line">                    &#125; finally &#123;</span><br><span class="line">                        lock.unlock();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    System.out.println(&quot;t1 false&quot;);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                boolean flag &#x3D; lock.tryLock();</span><br><span class="line">                if (flag) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        System.out.println(&quot;t2 true&quot;);</span><br><span class="line">                    &#125; finally &#123;</span><br><span class="line">                        lock.unlock();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    System.out.println(&quot;t2 false&quot;);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        </span><br><span class="line">&#x2F;&#x2F;tryLock(long time, TimeUnit unit) 的例子</span><br><span class="line">&#x2F;&#x2F; 假如能够获得锁，它会立即执行，假如无法获得锁，他的会等待time，等待之后到时之后假如获得锁了就返回true继续执行，否则就跳出。假如在等待的过程中所在线程被中断了，则会收到中断抛出InterruptedException</span><br><span class="line">Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                boolean flag;</span><br><span class="line">                try &#123;</span><br><span class="line">                    flag &#x3D; lock.tryLock(2, TimeUnit.SECONDS);</span><br><span class="line">                    if (flag) &#123;</span><br><span class="line">                        try &#123;</span><br><span class="line">                            System.out.println(&quot;t1 true&quot;);</span><br><span class="line">                            Thread.sleep(3000);</span><br><span class="line">                        &#125; finally &#123;</span><br><span class="line">                            lock.unlock();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        System.out.println(&quot;t1 false&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                boolean flag &#x3D; false;</span><br><span class="line">                try &#123;</span><br><span class="line">                    flag &#x3D; lock.tryLock(2, TimeUnit.SECONDS);</span><br><span class="line">                    if (flag) &#123;</span><br><span class="line">                        try &#123;</span><br><span class="line">                            System.out.println(&quot;t2 true&quot;);</span><br><span class="line">                            Thread.sleep(3000);</span><br><span class="line">                        &#125; finally &#123;</span><br><span class="line">                            lock.unlock();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125; else &#123;</span><br><span class="line">                        System.out.println(&quot;t2 false&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 通过lockInterruptibly()获取锁的时候，没有获取到的会阻塞住。没有获取到锁的时候，假如线程中断了则会抛出异常。</span><br><span class="line"> static Thread t1, t2;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        ReentrantLock lock &#x3D; new ReentrantLock();</span><br><span class="line">        t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                try &#123;</span><br><span class="line">                    lock.lockInterruptibly();</span><br><span class="line">                    try &#123;</span><br><span class="line">                        System.out.println(&quot;t1 true&quot;);</span><br><span class="line">                    &#125; finally &#123;</span><br><span class="line">                        System.out.println(&quot;t1 unlock&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                try &#123;</span><br><span class="line">                    lock.lockInterruptibly();</span><br><span class="line">                    try &#123;</span><br><span class="line">                        System.out.println(&quot;t2 true&quot;);</span><br><span class="line"></span><br><span class="line">                    &#125; finally &#123;</span><br><span class="line">                        System.out.println(&quot;t2 unlock&quot;);</span><br><span class="line">                        lock.unlock();</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t2.start();</span><br><span class="line">        t1.interrupt();</span><br><span class="line">        t2.interrupt();</span><br><span class="line">    &#125;        </span><br></pre></td></tr></table></figure>
+
+<p><code>synchronized</code>与<code>ReentrantLock</code>的比较</p>
+<ol>
+<li><code>synchronized</code>是独占锁，加锁和解锁过程自动进行，易于操作。<code>ReentrantLock</code>也是独占锁，加锁和解锁需要手动，不易操作，但是非常灵活</li>
+<li><code>synchronized</code>可重入，因为加锁和解锁自动运行，不必担心最后锁是否释放。<code>ReentrantLock</code>也可以重入，但是加锁和解锁需要手动进行，而且次数需要一样。</li>
+<li><code>synchronized</code>不可响应中断，一个线程获取不到锁就只能一直等待，<code>ReentrantLock</code>可以响应中断。</li>
+</ol>
+<p><code>ReentrantLock</code>的<code>lock</code>方法调用需要再try块之外，假如是获取锁成功了的，则需要再<code>finally</code>中释放锁。</p>
+<p><code>ReentrantLock</code>还有一个<code>Condition newCondition()</code>方法，可以用于平替<code>wait/notify</code>。<code>Condition</code>是一个接口，它的定义是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public interface Condition &#123;</span><br><span class="line">    void await() throws InterruptedException; &#x2F;&#x2F; 释放当前线程并阻塞，可以被中断</span><br><span class="line">    void awaitUninterruptibly(); &#x2F;&#x2F;</span><br><span class="line">    long awaitNanos(long nanosTimeout) throws InterruptedException;</span><br><span class="line">    boolean await(long time, TimeUnit unit) throws InterruptedException;</span><br><span class="line">    boolean awaitUntil(Date deadline) throws InterruptedException;</span><br><span class="line">    void signal();</span><br><span class="line">    void signalAll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>它大体与Object的<code>wait/notify</code>机制差不多,其中<code>await()</code>对应的<code>wait()</code>，<code>signal()</code>对应的<code>notify()</code>。<code>Condition</code>的<code>await()</code>与<code>signal()</code>都必须在<code>lock()</code>和<code>unlock()</code>之间才能使用。</p>
+<p>我们使用<code>wait/notify</code>在设计生产者与消费者的时候，假如是一对多的情况下，则可能会有死锁或者是多活的情况，就要么就完全的阻塞住了，不能做到一个时刻只有一个线程执行。我们每一个<code>ReentrantLock</code>可以有多个<code>Condition</code>，它们可以共用一个锁，但是可以自己去调用<code>await()/signal()</code>而不影响别的<code>Condition</code>，但是<code>wait/notify</code>是只能同一个锁对象，都得调用这个锁的<code>wait/notify</code>。例如一对多的生产-消费者，例子如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">private static List&lt;String&gt; data &#x3D; new ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args) throws NoSuchMethodException, NoSuchFieldException, InterruptedException &#123;</span><br><span class="line">        ReentrantLock lock &#x3D; new ReentrantLock();</span><br><span class="line">        Condition c1 &#x3D; lock.newCondition();</span><br><span class="line">        Condition c2 &#x3D; lock.newCondition();</span><br><span class="line"></span><br><span class="line">        Thread t1 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                lock.lock();</span><br><span class="line">                System.out.println(&quot;t1&quot;);</span><br><span class="line">                try &#123;</span><br><span class="line">                    while (true) &#123;</span><br><span class="line">                        &#x2F;&#x2F; 只能用while</span><br><span class="line">                        while (!data.isEmpty()) &#123;</span><br><span class="line">                            try &#123;</span><br><span class="line">                                System.out.println(&quot;生产者-&gt;1-&gt;wait&quot;);</span><br><span class="line">                                c1.await();</span><br><span class="line">                            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                                throw new RuntimeException(e);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(&quot;生产者-&gt;1&quot;);</span><br><span class="line">                        data.add(&quot;生产者1&quot;);</span><br><span class="line">                        Thread.sleep(1000);</span><br><span class="line">                        c2.signal();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Thread t2 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                lock.lock();</span><br><span class="line">                System.out.println(&quot;t2&quot;);</span><br><span class="line">                try &#123;</span><br><span class="line">                    while (true) &#123;</span><br><span class="line">                        &#x2F;&#x2F; 只能用while</span><br><span class="line">                        while (!data.isEmpty()) &#123;</span><br><span class="line">                            try &#123;</span><br><span class="line">                                System.out.println(&quot;生产者-&gt;2-&gt;wait&quot;);</span><br><span class="line">                                c1.await();</span><br><span class="line">                            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                                throw new RuntimeException(e);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(&quot;生产者-&gt;2&quot;);</span><br><span class="line">                        data.add(&quot;生产者2&quot;);</span><br><span class="line">                        Thread.sleep(1000);</span><br><span class="line">                        c2.signal();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        Thread t3 &#x3D; new Thread() &#123;</span><br><span class="line">            @Override</span><br><span class="line">            public void run() &#123;</span><br><span class="line">                super.run();</span><br><span class="line">                lock.lock();</span><br><span class="line">                System.out.println(&quot;t3&quot;);</span><br><span class="line">                try &#123;</span><br><span class="line">                    while (true) &#123;</span><br><span class="line">                        &#x2F;&#x2F; 只能用while</span><br><span class="line">                        while (data.isEmpty()) &#123;</span><br><span class="line">                            try &#123;</span><br><span class="line">                                System.out.println(&quot;消费者-&gt;wait&quot;);</span><br><span class="line">                                c2.await();</span><br><span class="line">                            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                                throw new RuntimeException(e);</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(&quot;消费来自:&quot; + data.remove(0));</span><br><span class="line">                        Thread.sleep(1000);</span><br><span class="line">                        c1.signal();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; catch (Exception e) &#123;</span><br><span class="line">                    throw new RuntimeException(e);</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    lock.unlock();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        t1.start();</span><br><span class="line">        t3.start();</span><br><span class="line">        t2.start();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>参考文章：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/vipstone/p/14136973.html">求求你，别再用wait和notify了！ 
+</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lixinkuan328/article/details/94426872">java-锁的应用之绑定多个条件Condition</a></li>
+</ol>
+
       
 
       
@@ -688,7 +252,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Jetpack</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
         		</li>
       		
 		</ul>
@@ -704,77 +268,26 @@
   </div>
 </article>
 
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
   
-    <article id="post-android_decompile_tools" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/04/android_decompile_tools/">Android的反编译工具以及使用</a>
-    </h1>
+    <a href="/2022/10/06/build_info/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Build的常用相关信息
+        
+      </div>
+    </a>
   
+  
+    <a href="/2022/08/06/java_thread1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java多线程篇一</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        
-        <a href="/2021/03/04/android_decompile_tools/" class="archive-article-date">
-  	<time datetime="2021-03-04T03:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>包括apktool，dex2jar，以及JD-GUI</p>
-        
-          <a class="article-more-a" href="/2021/03/04/android_decompile_tools/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
 
 <aside class="wrap-side-operation">
     <div class="mod-side-operation">
@@ -789,97 +302,33 @@
         </div>
         
         
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-open-source-collection" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/12/open-source-collection/">open_source_collection</a>
-    </h1>
-  
-
-        
-        <a href="/2020/10/12/open-source-collection/" class="archive-article-date">
-  	<time datetime="2020-10-12T08:27:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="开源项目"><a href="#开源项目" class="headerlink" title="开源项目"></a>开源项目</h1><p>主要是收集在Android常用开源项目，必须是本人经过使用的。</p>
-<p>1.<a target="_blank" rel="noopener" href="https://github.com/Blankj/AndroidUtilCode">AndroidUtilCode</a> Android开发的常用工具类，基本都是静态方法</p>
-<p>2.<a target="_blank" rel="noopener" href="https://github.com/alibaba/ARouter">ARouter</a> 实现组件化的具体方案，缺点是不能跨进程</p>
-<p>3.<a target="_blank" rel="noopener" href="https://github.com/bumptech/glide">glide</a> 推荐使用这个图片加载，不用facebook的那个</p>
-<p>4.<a target="_blank" rel="noopener" href="https://github.com/google/gson">gson</a> gosn数据传输解析方式</p>
-<p>5.<a target="_blank" rel="noopener" href="https://github.com/square/retrofit">retrofit</a> 网络请求建议使用这个</p>
-<p>6.<a target="_blank" rel="noopener" href="https://github.com/ReactiveX/RxJava">RxJava</a> 可以结合<code>retrofit</code>构建网络请求，处理线程之间的切换等</p>
-        
-          <a class="article-more-a" href="/2020/10/12/open-source-collection/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#volatile%E5%85%B3%E9%94%AE%E5%AD%97"><span class="toc-number">1.</span> <span class="toc-text">volatile关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#LockSupport"><span class="toc-number">2.</span> <span class="toc-text">LockSupport</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Lock"><span class="toc-number">3.</span> <span class="toc-text">Lock</span></a></li></ol>
+                    </div>
+                </span>
             </div>
         </div>
         
-        
     </div>
 </aside>
 
 
 
-
   
   
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">«上一页</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">下一页»</a>
-    </nav>
   
 
+  
+
+  
+
+  
 
 
           </div>
@@ -901,8 +350,8 @@
     <script>
 	var yiliaConfig = {
 		mathjax: true,
-		isHome: true,
-		isPost: false,
+		isHome: false,
+		isPost: true,
 		isArchive: false,
 		isTag: false,
 		isCategory: false,
