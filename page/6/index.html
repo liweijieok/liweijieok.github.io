@@ -140,6 +140,82 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-rn_summary" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/16/rn_summary/">ReactNative开发经验总结</a>
+    </h1>
+  
+
+        
+        <a href="/2018/05/16/rn_summary/" class="archive-article-date">
+  	<time datetime="2018-05-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文主要是本人从Android原生到开发出一套完整的RN模块嵌入原生的经验。</p>
+<h2 id="state与props"><a href="#state与props" class="headerlink" title="state与props"></a>state与props</h2><p>他们二者是RN的数据核心。state主要是自身数据更新，props主要是父组件传入到子组件中使用，也会有自身的默认props。<br>对于props，建议一般都传入子组件，防止以后进行修改。特定的flag则进行制定，比如：有一个Page A，他包含Component B</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">A extends Component&#123;</span><br><span class="line">...</span><br><span class="line">render()&#123;</span><br><span class="line">    return (</span><br><span class="line">    &#x2F;&#x2F;    ...</span><br><span class="line">        &lt;B url&#x3D;this.state.url &#123;...this.state&#125;&#x2F;&gt;</span><br><span class="line">      &#x2F;&#x2F;  ...</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F; ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于State，需要注意死循环，这种情况可能发生在render过程(不是事件响应过程)，假如在渲染过程中，我们需要修改state，一般先进行判断，然后再去设置，否则可能一直死循环render比如下面的Component例子。</p>
+        
+          <a class="article-more-a" href="/2018/05/16/rn_summary/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">RN</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-miniprogram" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -778,82 +854,6 @@
 			 
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">Java</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-anim_switch_view" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/16/anim_switch_view/">自定义SwitchView升级版</a>
-    </h1>
-  
-
-        
-        <a href="/2016/10/16/anim_switch_view/" class="archive-article-date">
-  	<time datetime="2016-10-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2016-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="自定义SwitchView升级版"><a href="#自定义SwitchView升级版" class="headerlink" title="自定义SwitchView升级版"></a>自定义SwitchView升级版</h3><p>效果图：</p>
-<p><img src="http://ocxgpwj6l.bkt.clouddn.com/animswitch.gif"></p>
-<p>在上一片文章中，我们只是在ACTION_MOVE中有动画效果，在这一片中，我们会在ACTION_DOWN和ACTION_UP中带有动画。</p>
-<h4 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h4><p>关于自定义的属性和初始化那些，跟上一篇文章类似，假如你还没有阅读，请先阅读上一篇文章：<a target="_blank" rel="noopener" href="http://liweijieok.github.io/2016/10/15/transition_switch_view/">自定义有动画的Switch控件</a><br>我们现在需要处理的是down和up事件，我们就需要添加一些属性去标记，比如down的位置，up之后应该是去到那里，每次重绘的spec是多少。所以我们添加了如下一些属性：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">&#x2F;**</span><br><span class="line">     * 动画结束的位置</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private float animEnd;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 每次更新的长度</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private float perAnim;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 分开5次更新</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static final int SEPARATION_LENGHT &#x3D; 5;&#x2F;&#x2F;分开五次更新</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 是否有动画</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private boolean hasAnim;</span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 动画方向，true为向右，false为向左</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private boolean animDirection;</span><br></pre></td></tr></table></figure>
-        
-          <a class="article-more-a" href="/2016/10/16/anim_switch_view/#more">more >></a>
-        
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
         		</li>
       		
 		</ul>
