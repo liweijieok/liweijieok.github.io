@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | liweijie</title>
+  <title>Delegate与Provider | liweijie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="liweijie">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="在组件化中，我们的模块或多或少都需要调用外部的服务，也有可能外部需要调用本模块的服务，因此就衍生出了两种概念，这里是本人对这两种概念的一些解读和使用方式推荐。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Delegate与Provider">
+<meta property="og:url" content="http://example.com/2023/06/28/android_modular_provider/index.html">
 <meta property="og:site_name" content="liweijie">
+<meta property="og:description" content="在组件化中，我们的模块或多或少都需要调用外部的服务，也有可能外部需要调用本模块的服务，因此就衍生出了两种概念，这里是本人对这两种概念的一些解读和使用方式推荐。">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-28T14:02:57.000Z">
+<meta property="article:modified_time" content="2023-06-29T14:58:50.230Z">
 <meta property="article:author" content="liweijie">
+<meta property="article:tag" content="OpenSource">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="liweijie" type="application/atom+xml">
@@ -138,74 +143,44 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-android_modular_provider" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/29/android_modular/" class="archive-article-date">
-  	<time datetime="2023-06-29T14:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-29</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/29/android_modular/">组件化的一些经验</a>
+    <h1 class="article-title" itemprop="name">
+      Delegate与Provider
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/28/android_modular_provider/" class="archive-article-date">
+        
+        <a href="/2023/06/28/android_modular_provider/" class="archive-article-date">
   	<time datetime="2023-06-28T14:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-28</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/28/android_modular_provider/">Delegate与Provider</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在组件化中，我们的模块或多或少都需要调用外部的服务，也有可能外部需要调用本模块的服务，因此就衍生出了两种概念，这里是本人对这两种概念的一些解读和使用方式推荐。</p>
+<span id="more"></span>
 
-        <div class="article-info info-on-right">
-          
+<ol>
+<li><code>Provider</code>：即你需要对外提供的功能，它的接口定义在最底层的模块中，在本模块去实现该接口</li>
+<li><code>Delegate</code>：即你需要外部提供给你的功能，在本模块中定义该接口，在顶层模块实现该接口</li>
+</ol>
+<p>举例子：<code>Provider</code>是通用的，方便别人调用自己的(无论是谁)，属于是共用能力，把接口定义在最底层模块，谁都可以访问到，<code>Delegate</code>是特殊的私有的，本模块自己需要才去定义，也只需要本模块去调用即可。</p>
+<p>前者比如：有一个单独的用户信息存储模块，UserInfo定义在最底层，存储在该模块，别的模块与用户信息存储模块无依赖关系能访问到UserInfo，则其他模块需要用户信息的时候，应该通过<code>Provider</code>方式实现，在最底层(至少于UserInfo同级)去定义，然后再用户信息存储模块去实现，别的模块去调用。</p>
+<p>后者比如：本模块需要获取别的模块的某个功能，本模块与该模块无依赖关系，可能都不在同一个仓库，不适合使用<code>Provider</code>的方式，他就定义一个<code>Delegate</code>接口，在顶层模块实现即可，本模块就调用该接口获取对应功能。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -217,338 +192,77 @@
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/04/25/arouter/" class="archive-article-date">
-  	<time datetime="2023-04-25T15:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/04/25/arouter/">ARouter源码阅读-基础篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/04/25/im_tech/" class="archive-article-date">
-  	<time datetime="2023-04-25T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/04/25/im_tech/">IM即时通讯一般涉及的技术点</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/29/dev_rule/" class="archive-article-date">
-  	<time datetime="2023-03-29T14:48:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/29/dev_rule/">团队Git使用&amp;统一代码格式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开发规范</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/29/android_gradle_so/" class="archive-article-date">
-  	<time datetime="2023-03-29T14:48:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/29/android_gradle_so/">Android获取so来自那个依赖</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/29/im_encrypt/" class="archive-article-date">
-  	<time datetime="2023-03-29T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/29/im_encrypt/">IM即时通讯数据加密方式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/19/android_naming_rules_res/" class="archive-article-date">
-  	<time datetime="2023-03-19T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/19/android_naming_rules_res/">Android开发推荐的资源命名规则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/21/fragment_lifecycle/" class="archive-article-date">
-  	<time datetime="2023-01-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/21/fragment_lifecycle/">在Fragment中使用Lifecycle</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/12/19/handler/" class="archive-article-date">
-  	<time datetime="2022-12-19T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/12/19/handler/">Handler原理分析与面试问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2023/06/29/android_modular/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          组件化的一些经验
+        
+      </div>
+    </a>
   
   
-    </div></section>
+    <a href="/2023/04/25/arouter/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ARouter源码阅读-基础篇</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/2/">下一页»</a>
-    </nav>
   
 
+  
+
+  
 
 
           </div>
@@ -571,8 +285,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,

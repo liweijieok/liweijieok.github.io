@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://example.com">
-  <title>Archives | liweijie</title>
+  <title>组件化的一些经验 | liweijie</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="liweijie">
-<meta property="og:url" content="http://example.com/archives/index.html">
+  <meta name="description" content="组件化的一些优点  并行开发，冲突减少 编译加速，效率加快 模块解耦，代码重用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="组件化的一些经验">
+<meta property="og:url" content="http://example.com/2023/06/29/android_modular/index.html">
 <meta property="og:site_name" content="liweijie">
+<meta property="og:description" content="组件化的一些优点  并行开发，冲突减少 编译加速，效率加快 模块解耦，代码重用">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-06-29T14:02:57.000Z">
+<meta property="article:modified_time" content="2023-06-29T14:57:41.169Z">
 <meta property="article:author" content="liweijie">
+<meta property="article:tag" content="OpenSource">
 <meta name="twitter:card" content="summary">
   
     <link rel="alternative" href="/atom.xml" title="liweijie" type="application/atom+xml">
@@ -138,36 +143,102 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-android_modular" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      组件化的一些经验
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2023" class="archive-year">2023</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/29/android_modular/" class="archive-article-date">
+
+        
+        <a href="/2023/06/29/android_modular/" class="archive-article-date">
   	<time datetime="2023-06-29T14:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-29</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/29/android_modular/">组件化的一些经验</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>组件化的一些优点</p>
+<ol>
+<li>并行开发，冲突减少</li>
+<li>编译加速，效率加快</li>
+<li>模块解耦，代码重用</li>
+</ol>
+<span id="more"></span>
 
-        <div class="article-info info-on-right">
-          
+<h2 id="基础功能"><a href="#基础功能" class="headerlink" title="基础功能"></a>基础功能</h2><p>就是组件化需要解决的最基本的功能</p>
+<ol>
+<li>页面传参与跳转，也需要支持<code>uri</code>式的链路，包括其中的参数解析，外部唤起等</li>
+<li>模块之间互相调用，即服务</li>
+<li>支持拦截器，包括跳转前拦截，跳转中参数替换等</li>
+</ol>
+<h2 id="高级功能"><a href="#高级功能" class="headerlink" title="高级功能"></a>高级功能</h2><ol>
+<li>路由配置可下发，动态性更换，比如某个页面崩溃了，可以下发统一调整去某个页面。</li>
+<li>支持多对一的路径配置，比如Android与iOS一开始是不一样的，后续某个端可以增加一个新的，有用修改本地代码。</li>
+<li>支持正则匹配，可以支持任意path直接对接到页面，比如传入一个http链接就可以打开网页，传入一个普通path就打开原生页面</li>
+<li>支持apt&amp;Gradle插件，通过apt工具生成路由信息，实现对应接口存储路由信息，再通过ASM查找到相关接口的实现类，组合起来，避免手动查找dex的耗时。</li>
+<li>可能还有各个路由框架自己的特点，比如不止一对一的服务，可以一对多，支持动态增加路由等等</li>
+</ol>
+<h2 id="代码划分"><a href="#代码划分" class="headerlink" title="代码划分"></a>代码划分</h2><p>组件化，一般是拆的过程，应该怎么拆，拆了之后怎么链接上，是一个值得思考的问题。</p>
+<p>我们开发app的时候，基本的代码组成都是：</p>
+<ol>
+<li>项目业务代码</li>
+<li>公司内部开发的一些sdk，也叫二方sdk</li>
+<li>外部的sdk，包括一些开源项目，或者是一些商业sdk。</li>
+</ol>
+<p>先引入两个概念：</p>
+<ol>
+<li>组件：职责单一，无揉杂，可以是单纯业务组件，可以是三方sdk封装的组件</li>
+<li>模块：混杂但是又带着独立的，可以有多个组件，但是也有自己的独立职责，可以独立运行也可以作为lib被依赖。</li>
+</ol>
+<p>我们组件化就是需要把应用拆分成组件与模块，按正常组件化：</p>
+<ol>
+<li>组件与模块应该各单独一个git仓库</li>
+<li>模块依赖组件，模块组合形成可运行的应用</li>
+<li>组件提供本地编译方式与远程依赖方式</li>
+</ol>
+<h2 id="本地编译与运行"><a href="#本地编译与运行" class="headerlink" title="本地编译与运行"></a>本地编译与运行</h2><p>因为我们模块化之后，为了提高编译速度，也为了方便代码的开发与管理，需要把有需要的模块或者组件进行aar方式的打包，传值远程仓库。</p>
+<p>通过devOps的方式，或者是其他的jekines等打包的时候，我们的远程git仓库打包都会使用这些模块的远程依赖。</p>
+<p>在本地运行的时候，我们开发那些模块，就把那些模块的本地编译模式打开，那么应该怎么做呢？</p>
+<p>这里提供两种方式，但是它们都需要把本地模块添加到<code>setting.gradle</code>中，添加的方式不是直接添加，而是动态添加，因为每个人需要调试的本地模块不一样，我们就需要利用一下<code>local.properties</code>这个文件，我们把需要调试的模块以key-value的形式配置在该文件中，然后通过流读取，在之后进行动态配置，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;local.properties文件的配置，它们是对应模块配置的本地路径</span><br><span class="line">lib-test&#x3D;.&#x2F;xxx&#x2F;xxx&#x2F;test</span><br><span class="line">lib-test1&#x3D;.&#x2F;xxx&#x2F;xxx&#x2F;test1</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 假如我们对应的远程依赖为：</span><br><span class="line">com.example:lib-test:1.0.0</span><br><span class="line">com.example:lib-test1:1.0.0</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 在setging.gradle中读取local.properties文件配置 并且添加到工程中</span><br><span class="line">def properties &#x3D; new Properties()</span><br><span class="line">def inputStream &#x3D; new File(rootDir,&quot;local.properties&quot;).newDataInputStream()</span><br><span class="line">properties.load( inputStream )</span><br><span class="line">properties.entrySet().each &#123; entry -&gt;</span><br><span class="line">    def prefix &#x3D; &quot;lib-&quot;</span><br><span class="line">    if (entry.key.startsWith(prefix)) &#123;</span><br><span class="line">        def path &#x3D; entry.value</span><br><span class="line">        def file &#x3D; file(path)</span><br><span class="line">        if (file.exists()) &#123;</span><br><span class="line">            include &quot;:$entry.key&quot;</span><br><span class="line">            project(&quot;:$entry.key&quot;).projectDir &#x3D; file</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这就完成了本地模块按需加载，每个人的<code>local.properties</code>都不一样，需要的就打开就行，之后就需要解决远程与本地的冲突问题，它存在的问题是：</p>
+<ol>
+<li>假如每次都使用注释或者是一个boolean值，那么灵活性是一般的，我们需要假如本地打开了就使用本地的，没打开就是用远程的</li>
+<li>假如依赖直接存在传递关系，比如A模块依赖与B，B模块依赖与C，这时候我们需要对B模块进行本地调试，A模块的依赖就需要排出掉B的，否则就会有冲突。</li>
+</ol>
+<p>有两种推荐的方式：</p>
+<ol>
+<li>使用<code>dependencySubstitution</code>的方式</li>
+<li>判断是本地编译的时候，exclude调远程依赖当时</li>
+</ol>
+<p>第一种方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">configurations.all &#123;</span><br><span class="line">    Map&lt;String, Project&gt; includeModule &#x3D; new HashMap&lt;&gt;()</span><br><span class="line">    rootProject.getAllprojects().each &#123;</span><br><span class="line">        if (it !&#x3D; rootProject) includeModule.put(it.name, it)</span><br><span class="line">    &#125;</span><br><span class="line">    resolutionStrategy.dependencySubstitution.all &#123; DependencySubstitution dependency -&gt;</span><br><span class="line">        &#x2F;&#x2F; use local module</span><br><span class="line">        def module &#x3D; dependency.requested.module</span><br><span class="line">        if (module !&#x3D; null &amp;&amp; includeModule.keySet().contains(module)) &#123;</span><br><span class="line">            dependency.useTarget includeModule.get(module)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>出处可以看:<a target="_blank" rel="noopener" href="https://juejin.cn/post/7062642189154648101">Androd Gradle 使用技巧之模块依赖替换</a></p>
+<p>第二种方式是货拉拉的方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;**</span><br><span class="line"> * 如果工程中有源码，则依赖源码，否则依赖aar</span><br><span class="line"> *&#x2F;</span><br><span class="line">def moduleApi(String compileStr, Closure configureClosure) &#123;</span><br><span class="line">    String[] temp &#x3D; compileStr.split(&quot;:&quot;)</span><br><span class="line">    String group &#x3D; temp[0]</span><br><span class="line">    String artifactid &#x3D; temp[1]</span><br><span class="line">    String version &#x3D; temp[2]</span><br><span class="line"></span><br><span class="line">    Set&lt;String&gt; includeModule &#x3D; new HashSet&lt;&gt;()</span><br><span class="line">    rootProject.getAllprojects().each &#123;</span><br><span class="line">        if (it !&#x3D; rootProject) includeModule.add(it.name)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (includeModule.contains(artifactid)) &#123;</span><br><span class="line">        println(project.name + &quot;源码依赖：&#x3D;&#x3D;&#x3D;project(\&quot;:$artifactid\&quot;)&quot;)</span><br><span class="line">        projects.project.dependencies.add(&quot;api&quot;, project(&#39;:&#39; + artifactid), configureClosure)</span><br><span class="line">&#x2F;&#x2F;        projects.project.configurations &#123; compile.exclude group: group, module: artifactid &#125;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        println(project.name + &quot;依赖：&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;$group:$artifactid:$version&quot;)</span><br><span class="line">        projects.project.dependencies.add(&quot;api&quot;, &quot;$group:$artifactid:$version&quot;, configureClosure)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际使用的时候就是用<code>moduleApi</code>而不是<code>api</code>。</p>
+<p>二者我会更推荐使用第一种，他不需要配置那么多。</p>
+<h2 id="开源的组件化方案"><a href="#开源的组件化方案" class="headerlink" title="开源的组件化方案"></a>开源的组件化方案</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://github.com/alibaba/ARouter">ARouter</a> (版本太老，不建议使用)</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/HuolalaTech/hll-wp-therouter-android">TheRouter</a>，货拉拉</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/didi/DRouter">DRouter</a>，滴滴</li>
+<li><a target="_blank" rel="noopener" href="https://github.com/meituan/WMRouter">WMRouter</a>，美团</li>
+</ol>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -179,376 +250,68 @@
 		</ul>
 	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/06/28/android_modular_provider/" class="archive-article-date">
-  	<time datetime="2023-06-28T14:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-06-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/06/28/android_modular_provider/">Delegate与Provider</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/04/25/arouter/" class="archive-article-date">
-  	<time datetime="2023-04-25T15:02:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/04/25/arouter/">ARouter源码阅读-基础篇</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">OpenSource</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/04/25/im_tech/" class="archive-article-date">
-  	<time datetime="2023-04-25T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-04-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/04/25/im_tech/">IM即时通讯一般涉及的技术点</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/29/dev_rule/" class="archive-article-date">
-  	<time datetime="2023-03-29T14:48:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/29/dev_rule/">团队Git使用&amp;统一代码格式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">开发规范</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/29/android_gradle_so/" class="archive-article-date">
-  	<time datetime="2023-03-29T14:48:58.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/29/android_gradle_so/">Android获取so来自那个依赖</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/29/im_encrypt/" class="archive-article-date">
-  	<time datetime="2023-03-29T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-29</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/29/im_encrypt/">IM即时通讯数据加密方式</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">IM</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/03/19/android_naming_rules_res/" class="archive-article-date">
-  	<time datetime="2023-03-19T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/03/19/android_naming_rules_res/">Android开发推荐的资源命名规则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2023/01/21/fragment_lifecycle/" class="archive-article-date">
-  	<time datetime="2023-01-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2023-01-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2023/01/21/fragment_lifecycle/">在Fragment中使用Lifecycle</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
       
-        </div></section>
+
       
+
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2022" class="archive-year">2022</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2022/12/19/handler/" class="archive-article-date">
-  	<time datetime="2022-12-19T14:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2022-12-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2022/12/19/handler/">Handler原理分析与面试问题</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2023/06/28/android_modular_provider/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Delegate与Provider</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD"><span class="toc-number">1.</span> <span class="toc-text">基础功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%AB%98%E7%BA%A7%E5%8A%9F%E8%83%BD"><span class="toc-number">2.</span> <span class="toc-text">高级功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E5%88%92%E5%88%86"><span class="toc-number">3.</span> <span class="toc-text">代码划分</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E7%BC%96%E8%AF%91%E4%B8%8E%E8%BF%90%E8%A1%8C"><span class="toc-number">4.</span> <span class="toc-text">本地编译与运行</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E6%BA%90%E7%9A%84%E7%BB%84%E4%BB%B6%E5%8C%96%E6%96%B9%E6%A1%88"><span class="toc-number">5.</span> <span class="toc-text">开源的组件化方案</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/2/">下一页»</a>
-    </nav>
   
 
+  
+
+  
 
 
           </div>
@@ -571,8 +334,8 @@
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: true,
